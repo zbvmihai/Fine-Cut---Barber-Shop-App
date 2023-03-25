@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_gravity="start|top"
     android:background="@color/rich_black"
     tools:context=".activities.IntroActivity">
 
@@ -25,8 +26,8 @@
             android:layout_weight="1"
             android:fontFamily="@font/poppins_bold"
             android:gravity="center|end"
-            android:paddingEnd="3dp"
             android:paddingStart="0dp"
+            android:paddingEnd="3dp"
             android:text="@string/your"
             android:textColor="@color/munsell_blue" />
 
@@ -128,6 +129,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
         android:fontFamily="@font/poppins_bold"
+        android:gravity="start|top"
         android:text="@string/you_can_trust"
         android:textColor="@color/white"
         android:textSize="28sp"

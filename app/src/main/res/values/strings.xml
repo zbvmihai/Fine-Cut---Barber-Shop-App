@@ -5,10 +5,10 @@
     <string name="barber_shop">BarberShop!</string>
     <string name="fine_cut_logo">Fine Cut Logo</string>
     <string name="best_in_town">Best in Town!</string>
-    <string name="the">The</string>
+    <string name="the">The </string>
     <string name="barber">Barber</string>
     <string name="shop">Shop</string>
-    <string name="that">That</string>
+    <string name="that"> That</string>
     <string name="you_can_trust">You Can Trust.</string>
     <string name="please_log_in_to_the_world_of_beauty">Please log in to the world of beauty!</string>
     <string name="password">Password</string>
@@ -21,4 +21,10 @@
     <string name="google_login">Google LogIn</string>
     <string name="you_don_t_have_an_account">You don\'t have an account?</string>
     <string name="sign_up_now">Sign Up Now!</string>
+    <string name="you_are_one_step_away_to_become_more_beautiful">You are one step away to become more beautiful!</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="first_name">First Name</string>
+    <string name="surname">Surname</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="sign_up">Sign Up</string>
 </resources>
