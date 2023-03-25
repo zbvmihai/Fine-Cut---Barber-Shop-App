@@ -7,55 +7,61 @@
     android:background="@color/rich_black"
     tools:context=".activities.IntroActivity">
 
-    <TextView
-        android:id="@+id/u1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="62dp"
+    <LinearLayout
+        android:id="@+id/llIntro"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
         android:layout_marginTop="5dp"
-        android:fontFamily="@font/poppins_medium"
-        android:text="@string/your"
-        android:textColor="@color/munsell_blue"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toStartOf="@+id/u2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/u2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:fontFamily="@font/poppins_medium"
-        android:text="@string/friendly_professional"
-        android:textColor="@color/salmon_pink"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toStartOf="@+id/u3"
-        app:layout_constraintStart_toEndOf="@+id/u1"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/u3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="62dp"
-        android:fontFamily="@font/poppins_medium"
-        android:text="@string/barber_shop"
-        android:textColor="@color/munsell_blue"
-        android:textSize="14sp"
+        android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/u2"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tvu1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/poppins_bold"
+            android:gravity="center|end"
+            android:paddingEnd="3dp"
+            android:paddingStart="0dp"
+            android:text="@string/your"
+            android:textColor="@color/munsell_blue" />
+
+        <TextView
+            android:id="@+id/tvu2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:fontFamily="@font/poppins_bold"
+            android:gravity="center|start"
+            android:text="@string/friendly_professional"
+            android:textColor="@color/salmon_pink" />
+
+        <TextView
+            android:id="@+id/tvu3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/poppins_bold"
+            android:gravity="center|start"
+            android:paddingStart="3dp"
+            android:paddingEnd="0dp"
+            android:text="@string/barber_shop"
+            android:textColor="@color/munsell_blue" />
+    </LinearLayout>
+
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/logo"
         android:layout_width="400dp"
         android:layout_height="270dp"
         android:contentDescription="@string/fine_cut_logo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/u2"
+        app:layout_constraintTop_toBottomOf="@+id/llIntro"
         app:srcCompat="@drawable/finecut_logo" />
 
     <TextView
@@ -69,7 +75,7 @@
         android:textColor="@color/white"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toBottomOf="@+id/logo" />
 
     <TextView
         android:id="@+id/u5"

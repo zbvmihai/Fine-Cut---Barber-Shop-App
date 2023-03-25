@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">FineCut - BarberShop</string>
-    <string name="friendly_professional"><![CDATA[Friendly & Professional ]]></string>
-    <string name="your">Your </string>
-    <string name="barber_shop">Barber Shop!</string>
+    <string name="friendly_professional"><![CDATA[Friendly & Professional]]></string>
+    <string name="your">Your</string>
+    <string name="barber_shop">BarberShop!</string>
     <string name="fine_cut_logo">Fine Cut Logo</string>
     <string name="best_in_town">Best in Town!</string>
     <string name="the">The</string>
@@ -10,4 +10,15 @@
     <string name="shop">Shop</string>
     <string name="that">That</string>
     <string name="you_can_trust">You Can Trust.</string>
+    <string name="please_log_in_to_the_world_of_beauty">Please log in to the world of beauty!</string>
+    <string name="password">Password</string>
+    <string name="email">Email</string>
+    <string name="register">Register!</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="log_in">Log In</string>
+    <string name="or_sign_in_using">or sign in using</string>
+    <string name="facebook_login">Facebook LogIn</string>
+    <string name="google_login">Google LogIn</string>
+    <string name="you_don_t_have_an_account">You don\'t have an account?</string>
+    <string name="sign_up_now">Sign Up Now!</string>
 </resources>
