@@ -2,7 +2,6 @@ package com.finecut.barbershop.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.finecut.barbershop.R
 import com.finecut.barbershop.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -14,5 +13,7 @@ class MainActivity : AppCompatActivity() {
         mainBinding = ActivityMainBinding.inflate(layoutInflater)
         val view = mainBinding.root
         setContentView(view)
+
+
     }
 }
