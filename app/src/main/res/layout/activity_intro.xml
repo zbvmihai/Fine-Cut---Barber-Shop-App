@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/rich_black"
+    tools:context=".activities.IntroActivity">
+
+    <TextView
+        android:id="@+id/u1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="62dp"
+        android:layout_marginTop="5dp"
+        android:fontFamily="@font/poppins_medium"
+        android:text="@string/your"
+        android:textColor="@color/munsell_blue"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toStartOf="@+id/u2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/u2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:fontFamily="@font/poppins_medium"
+        android:text="@string/friendly_professional"
+        android:textColor="@color/salmon_pink"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toStartOf="@+id/u3"
+        app:layout_constraintStart_toEndOf="@+id/u1"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/u3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="62dp"
+        android:fontFamily="@font/poppins_medium"
+        android:text="@string/barber_shop"
+        android:textColor="@color/munsell_blue"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/u2"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="400dp"
+        android:layout_height="270dp"
+        android:contentDescription="@string/fine_cut_logo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/u2"
+        app:srcCompat="@drawable/finecut_logo" />
+
+    <TextView
+        android:id="@+id/u4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="90dp"
+        android:fontFamily="@font/poppins_semibold"
+        android:text="@string/best_in_town"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+    <TextView
+        android:id="@+id/u5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:fontFamily="@font/poppins_bold"
+        android:text="@string/the"
+        android:textColor="@color/white"
+        android:textSize="28sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/u4" />
+
+    <TextView
+        android:id="@+id/u6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_bold"
+        android:text="@string/barber"
+        android:textColor="@color/salmon_pink"
+        android:textSize="28sp"
+        app:layout_constraintStart_toEndOf="@+id/u5"
+        app:layout_constraintTop_toBottomOf="@+id/u4" />
+
+    <TextView
+        android:id="@+id/u7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_bold"
+        android:text="@string/shop"
+        android:textColor="@color/munsell_blue"
+        android:textSize="28sp"
+        app:layout_constraintStart_toEndOf="@+id/u6"
+        app:layout_constraintTop_toBottomOf="@+id/u4" />
+
+    <TextView
+        android:id="@+id/u8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_bold"
+        android:text="@string/that"
+        android:textColor="@color/white"
+        android:textSize="28sp"
+        app:layout_constraintStart_toEndOf="@+id/u7"
+        app:layout_constraintTop_toBottomOf="@+id/u4" />
+
+    <TextView
+        android:id="@+id/u9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:fontFamily="@font/poppins_bold"
+        android:text="@string/you_can_trust"
+        android:textColor="@color/white"
+        android:textSize="28sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/u5" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
