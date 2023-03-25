@@ -1,6 +1,6 @@
 <resources>
     <style name="Theme.BarberShop" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/purple_500</item>
+        <item name="colorPrimary">@color/munsell_blue</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
         <item name="colorOnPrimary">@color/white</item>
         <item name="colorSecondary">@color/teal_200</item>

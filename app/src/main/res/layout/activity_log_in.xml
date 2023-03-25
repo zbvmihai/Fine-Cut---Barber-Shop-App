@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.LogInActivity">
+
+    <TextView
+        android:id="@+id/ul1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="62dp"
+        android:layout_marginTop="5dp"
+        android:fontFamily="@font/poppins_medium"
+        android:text="@string/your"
+        android:textColor="@color/munsell_blue"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toStartOf="@+id/ul2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/ul2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:fontFamily="@font/poppins_medium"
+        android:text="@string/friendly_professional"
+        android:textColor="@color/salmon_pink"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toStartOf="@+id/ul3"
+        app:layout_constraintStart_toEndOf="@+id/ul1"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/ul3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="62dp"
+        android:fontFamily="@font/poppins_medium"
+        android:text="@string/barber_shop"
+        android:textColor="@color/munsell_blue"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ul2"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="180dp"
+        android:layout_height="140dp"
+        android:contentDescription="@string/fine_cut_logo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ul2"
+        app:srcCompat="@drawable/finecut_logo" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/poppins_bold"
+        android:text="@string/please_log_in_to_the_world_of_beauty"
+        android:textColor="@color/munsell_blue"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+    <EditText
+        android:id="@+id/etLoginEmail"
+        android:layout_width="320dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/edit_text_background"
+        android:ems="10"
+        android:fontFamily="@font/poppins"
+        android:gravity="center|start"
+        android:hint="@string/email"
+        android:importantForAutofill="no"
+        android:inputType="textEmailAddress"
+        android:padding="10dp"
+        android:textColor="@color/rich_black"
+        android:textColorHint="@color/gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        tools:ignore="TextContrastCheck" />
+
+    <EditText
+        android:id="@+id/etLoginPassword"
+        android:layout_width="320dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/edit_text_background"
+        android:ems="10"
+        android:fontFamily="@font/poppins"
+        android:gravity="center|start"
+        android:hint="@string/password"
+        android:importantForAutofill="no"
+        android:inputType="textPassword"
+        android:padding="10dp"
+        android:textColor="@color/rich_black"
+        android:textColorHint="@color/gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etLoginEmail"
+        tools:ignore="TextContrastCheck" />
+
+    <TextView
+        android:id="@+id/tvBtnRegister"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/poppins_bold"
+        android:text="@string/register"
+        android:textColor="@color/salmon_pink"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/etLoginPassword"
+        app:layout_constraintTop_toBottomOf="@+id/etLoginPassword" />
+
+    <TextView
+        android:id="@+id/ul5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="140dp"
+        android:fontFamily="@font/poppins_bold"
+        android:text="@string/you_don_t_have_an_account"
+        android:textColor="@color/salmon_pink"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ul4" />
+
+    <TextView
+        android:id="@+id/tvBtnSignUpNow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="140dp"
+        android:layout_marginEnd="19dp"
+        android:fontFamily="@font/poppins_bold"
+        android:text="@string/sign_up_now"
+        android:textColor="@color/munsell_blue"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ul5"
+        app:layout_constraintTop_toBottomOf="@+id/ul4" />
+
+    <TextView
+        android:id="@+id/tvBtnForgotPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/poppins_bold"
+        android:text="@string/forgot_password"
+        android:textColor="@color/munsell_blue"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/etLoginPassword"
+        app:layout_constraintTop_toBottomOf="@+id/etLoginPassword" />
+
+    <TextView
+        android:id="@+id/ul4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/poppins_bold"
+        android:text="@string/or_sign_in_using"
+        android:textColor="@color/munsell_blue"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnLogIn" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnLogIn"
+        android:layout_width="190dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="80dp"
+        android:background="@drawable/button_background"
+        android:fontFamily="@font/poppins_bold"
+        android:gravity="center"
+        android:includeFontPadding="false"
+        android:padding="5dp"
+        android:text="@string/log_in"
+        android:textAllCaps="false"
+        android:textColor="@color/rich_black"
+        android:textSize="36sp"
+        app:iconPadding="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etLoginPassword" />
+
+    <ImageView
+        android:id="@+id/ivBtnFaceBookLogIn"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:contentDescription="@string/facebook_login"
+        app:layout_constraintStart_toStartOf="@+id/ul4"
+        app:layout_constraintTop_toBottomOf="@+id/ul4"
+        app:srcCompat="@drawable/facebook_icon" />
+
+    <ImageView
+        android:id="@+id/ivBtnGoogleLogIn"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:contentDescription="@string/google_login"
+        app:layout_constraintEnd_toEndOf="@+id/ul4"
+        app:layout_constraintTop_toBottomOf="@+id/ul4"
+        app:srcCompat="@drawable/google_icon" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
