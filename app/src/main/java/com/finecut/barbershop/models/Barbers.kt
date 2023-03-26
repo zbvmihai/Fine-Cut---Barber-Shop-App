@@ -5,19 +5,20 @@ import android.os.Parcelable
 
 data class Barbers(
     val barberId: String = "",
-    val barberImage: String ="",
+    val barberImage: String = "",
     val barberName: String = "",
     val barberRating: Double = 5.0,
-    val barberDescription: String = ""
-): Parcelable {
+    val barberDescription: String = "",
+    val timeslots: List<Timeslot> = emptyList()
+) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readDouble(),
-        parcel.readString()!!
-    ) {
-    }
+        parcel.readString()!!,
+        parcel.createTypedArrayList(Timeslot.CREATOR) ?: emptyList()
+    )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(barberId)
@@ -25,6 +26,7 @@ data class Barbers(
         parcel.writeString(barberName)
         parcel.writeDouble(barberRating)
         parcel.writeString(barberDescription)
+        parcel.writeTypedList(timeslots)
     }
 
     override fun describeContents(): Int {

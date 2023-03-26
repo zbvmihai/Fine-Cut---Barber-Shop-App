@@ -18,7 +18,11 @@ class BookingActivity : AppCompatActivity() {
     private var barbersList: ArrayList<Barbers> = arrayListOf()
     private var position: Int = 0
 
+    private var timeSlots: List<String> = listOf("")
+
     private lateinit var bookingBinding: ActivityBookingBinding
+
+    private lateinit var timeSlotsAdapter: ArrayAdapter<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,15 +30,10 @@ class BookingActivity : AppCompatActivity() {
         val view = bookingBinding.root
         setContentView(view)
 
-        val timeSlots = listOf("9:00 AM - 10:00 AM", "10:00 AM - 11:00 AM",
-            "11:00 AM - 12:00 PM", "12:00 PM - 1:00 PM", "1:00 PM - 2:00 PM",
-            "11:00 AM - 12:00 PM", "12:00 PM - 1:00 PM", "1:00 PM - 2:00 PM",
-            "11:00 AM - 12:00 PM", "12:00 PM - 1:00 PM", "1:00 PM - 2:00 PM",
-            "2:00 PM - 3:00 PM", "3:00 PM - 4:00 PM", "4:00 PM - 5:00 PM")
 
-        val adapter = ArrayAdapter(this, R.layout.spinner_item, timeSlots)
-        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
-        bookingBinding.spinnerTimeSlot.adapter = adapter
+        timeSlotsAdapter = ArrayAdapter(this, R.layout.spinner_item, mutableListOf())
+        timeSlotsAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
+        bookingBinding.spinnerTimeSlot.adapter = timeSlotsAdapter
 
         getAndSetData()
 
@@ -44,6 +43,13 @@ class BookingActivity : AppCompatActivity() {
 
         barbersList = intent.getParcelableArrayListExtra("barbersList")!!
         position = intent.getIntExtra("position", 0)
+        timeSlots = barbersList[position].timeslots
+            .filter { it.availability != 1 } // Filter out booked slots
+            .map { it.time } // Get the time of available slots
+
+        timeSlotsAdapter.clear()
+        timeSlotsAdapter.addAll(timeSlots)
+        timeSlotsAdapter.notifyDataSetChanged()
 
         bookingBinding.bookingTbTitle.text = barbersList[position].barberName
         bookingBinding.rbBookingBarberRating.rating = barbersList[position].barberRating.toFloat()
