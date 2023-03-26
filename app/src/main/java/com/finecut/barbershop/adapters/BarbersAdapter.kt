@@ -1,16 +1,19 @@
 package com.finecut.barbershop.adapters
 
+import android.content.Context
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.finecut.barbershop.activities.BookingActivity
 import com.finecut.barbershop.databinding.BarbersCardBinding
 import com.finecut.barbershop.models.Barbers
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 
-class BarbersAdapter(
+class BarbersAdapter(private var context: Context,
     private var barbersList: ArrayList<Barbers>
 ): RecyclerView.Adapter<BarbersAdapter.BarbersViewHolder>() {
 
@@ -30,8 +33,16 @@ class BarbersAdapter(
         holder.adapterBinding.tvBarberDescription.text = barbersList[holder.adapterPosition].barberDescription
         holder.adapterBinding.rbBarberRating.rating = barbersList[holder.adapterPosition].barberRating.toFloat()
 
-        val barberImageUrl = barbersList[holder.adapterPosition].barberImage
+        holder.adapterBinding.llBarber.setOnClickListener {
 
+            val intent = Intent(context,BookingActivity::class.java)
+            intent.putParcelableArrayListExtra("barbersList", barbersList)
+            intent.putExtra("position", holder.adapterPosition)
+            context.startActivity(intent)
+
+        }
+
+        val barberImageUrl = barbersList[holder.adapterPosition].barberImage
         Picasso.get().load(barberImageUrl).into(holder.adapterBinding.ivBarberImage, object : Callback{
             override fun onSuccess() {
                 holder.adapterBinding.pbBarberImage.visibility = View.GONE

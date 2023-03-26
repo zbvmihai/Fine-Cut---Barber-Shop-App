@@ -32,4 +32,18 @@
     <string name="barber_name">Barber Name</string>
     <string name="description">Description</string>
     <string name="logo">Logo</string>
+    <string name="see_reviews">See Reviews</string>
+    <string name="book_a_visit_with_this_barber">Book a visit with this barber!</string>
+    <string name="select_a_date">Select a date</string>
+    <string name="date">Date:</string>
+    <string name="time_slot">Time Slot:</string>
+    <string name="service">Service:</string>
+    <string name="enter_discount_code_here">Enter Discount Code Here</string>
+    <string name="total">Total:</string>
+    <string name="book">Book!</string>
+    <string name="_35">35$</string>
+    <string name="select_a_time_slot">Select a time slot</string>
+    <string name="select_a_service">Select a service</string>
+
+
 </resources>

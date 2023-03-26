@@ -78,7 +78,7 @@ class MainActivity : AppCompatActivity() {
 
                     }
 
-                    barbersAdapter = BarbersAdapter(barbersList)
+                    barbersAdapter = BarbersAdapter(this@MainActivity,barbersList)
 
                     mainBinding.rvMain.layoutManager = LinearLayoutManager(this@MainActivity)
 

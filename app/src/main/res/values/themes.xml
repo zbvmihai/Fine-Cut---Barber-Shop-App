@@ -9,5 +9,6 @@
         <item name="android:windowBackground">@color/rich_black</item>
         <item name="android:statusBarColor">@color/munsell_blue</item>
         <item name="android:windowFullscreen">true</item>
+
     </style>
 </resources>
