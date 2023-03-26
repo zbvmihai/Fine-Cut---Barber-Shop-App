@@ -27,4 +27,9 @@
     <string name="surname">Surname</string>
     <string name="phone_number">Phone Number</string>
     <string name="sign_up">Sign Up</string>
+    <string name="available_barbers">Available Barbers</string>
+    <string name="barber_photo">Barber Photo</string>
+    <string name="barber_name">Barber Name</string>
+    <string name="description">Description</string>
+    <string name="logo">Logo</string>
 </resources>

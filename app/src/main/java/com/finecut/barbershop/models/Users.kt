@@ -8,14 +8,16 @@ data class Users(
     val firstName: String = "",
     val surname: String = "",
     val email: String = "",
-    val phoneNumber: Long = 0
+    val phoneNumber: Long = 0,
+    val isClient: Int = 1
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
-        parcel.readLong()
+        parcel.readLong(),
+        parcel.readInt()
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -24,6 +26,7 @@ data class Users(
         parcel.writeString(surname)
         parcel.writeString(email)
         parcel.writeLong(phoneNumber)
+        parcel.writeInt(isClient)
     }
 
     override fun describeContents(): Int {

@@ -1,16 +1,26 @@
 package com.finecut.barbershop.activities
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.finecut.barbershop.adapters.BarbersAdapter
 import com.finecut.barbershop.databinding.ActivityMainBinding
-import kotlin.system.exitProcess
+import com.finecut.barbershop.models.Barbers
+import com.google.firebase.database.*
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var mainBinding: ActivityMainBinding
     private var backPressedTime: Long = 0
+
+    private val database: FirebaseDatabase = FirebaseDatabase.getInstance()
+    private val myReference: DatabaseReference = database.reference.child("Barbers")
+
+    private val barbersList = ArrayList<Barbers>()
+    private lateinit var barbersAdapter: BarbersAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,6 +30,7 @@ class MainActivity : AppCompatActivity() {
 
         setupActionBar()
         setupOnBackPressedCallback()
+        retrieveBarbersFromDatabase()
     }
 
     private fun setupActionBar() {
@@ -49,6 +60,40 @@ class MainActivity : AppCompatActivity() {
 
         onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
     }
+
+    private fun retrieveBarbersFromDatabase(){
+
+        myReference.addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+
+                barbersList.clear()
+
+                for (eachBarber in snapshot.children){
+
+                    val barber = eachBarber.getValue(Barbers::class.java)
+
+                    if (barber !=null){
+
+                        barbersList.add(barber)
+
+                    }
+
+                    barbersAdapter = BarbersAdapter(barbersList)
+
+                    mainBinding.rvMain.layoutManager = LinearLayoutManager(this@MainActivity)
+
+                    mainBinding.rvMain.adapter = barbersAdapter
+                }
+
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.e("Database Error: ", error.toString())
+            }
+
+        })
+    }
+
 }
 
 
