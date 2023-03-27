@@ -41,6 +41,19 @@ class LogInActivity : AppCompatActivity() {
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+
+        val currentUser = auth.currentUser
+
+        if (currentUser !=null){
+
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+    }
+
     private fun signIn(userEmail: String, userPassword: String) {
 
         auth.signInWithEmailAndPassword(userEmail, userPassword).addOnCompleteListener { task ->
@@ -49,6 +62,7 @@ class LogInActivity : AppCompatActivity() {
                 Toast.makeText(applicationContext, "User Signed In!", Toast.LENGTH_SHORT).show()
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
+                finish()
             } else {
                 Toast.makeText(
                     applicationContext,

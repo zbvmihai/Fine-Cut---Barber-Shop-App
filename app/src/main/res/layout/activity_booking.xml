@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.BookingActivity">
+
+    <TextView
+        android:id="@+id/tvb5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/poppins"
+        android:text="@string/total"
+        android:textColor="@color/naples_yellow"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@+id/tvb4"
+        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/tbBooking"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:titleTextColor="@color/rich_black">
+
+        <TextView
+            android:id="@+id/bookingTbTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/poppins_bold"
+            android:text="@string/barber_name"
+            android:textColor="@color/rich_black"
+            android:textSize="30sp" />
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/ivBookingBarberImage"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="10dp"
+        android:contentDescription="@string/barber_photo"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tbBooking"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.RoundImageView"
+        tools:ignore="ImageContrastCheck"
+        tools:src="@tools:sample/avatars" />
+
+    <ProgressBar
+        android:id="@+id/pbBookingBarberImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/ivBookingBarberImage"
+        app:layout_constraintEnd_toEndOf="@+id/ivBookingBarberImage"
+        app:layout_constraintStart_toStartOf="@+id/ivBookingBarberImage"
+        app:layout_constraintTop_toTopOf="@+id/ivBookingBarberImage"
+        tools:visibility="visible" />
+
+    <androidx.appcompat.widget.AppCompatRatingBar
+        android:id="@+id/rbBookingBarberRating"
+        style="@style/Widget.AppCompat.RatingBar.Indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start|top"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/description_ratingbar_background"
+        android:numStars="5"
+        android:padding="0dp"
+        android:rating="4.5"
+        android:stepSize="0.5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivBookingBarberImage" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnSeeReviews"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/button2_selector"
+        android:fontFamily="@font/poppins_bold"
+        android:gravity="center"
+        android:text="@string/see_reviews"
+        android:textAllCaps="false"
+        android:textColor="@color/rich_black"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rbBookingBarberRating"
+        tools:ignore="TouchTargetSizeCheck" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnBook"
+        android:layout_width="160dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/button2_selector"
+        android:fontFamily="@font/poppins_bold"
+        android:gravity="center"
+        android:text="@string/book"
+        android:textAllCaps="false"
+        android:textColor="@color/rich_black"
+        android:textSize="34sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName2"
+        tools:ignore="TouchTargetSizeCheck" />
+
+    <TextView
+        android:id="@+id/tvb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/poppins"
+        android:text="@string/book_a_visit_with_this_barber"
+        android:textColor="@color/naples_yellow"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnSeeReviews" />
+
+    <TextView
+        android:id="@+id/tvb2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/poppins"
+        android:text="@string/date"
+        android:textColor="@color/naples_yellow"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@+id/tvb"
+        app:layout_constraintTop_toBottomOf="@+id/tvb" />
+
+    <TextView
+        android:id="@+id/tvb3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/poppins"
+        android:text="@string/time_slot"
+        android:textColor="@color/naples_yellow"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@+id/tvb2"
+        app:layout_constraintTop_toBottomOf="@+id/tvb2" />
+
+    <TextView
+        android:id="@+id/tvb4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/poppins"
+        android:text="@string/service"
+        android:textColor="@color/naples_yellow"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@+id/tvb3"
+        app:layout_constraintTop_toBottomOf="@+id/tvb3" />
+
+    <TextView
+        android:id="@+id/editTextDate"
+        android:layout_width="170dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="10dp"
+        android:autofillHints=""
+        android:background="@drawable/edit_text_background2"
+        android:ems="10"
+        android:fontFamily="@font/poppins_bold"
+        android:gravity="center"
+        android:hint="@string/select_a_date"
+        android:textColor="@color/rich_black"
+        android:textColorHint="@color/rich_black"
+        android:textColorLink="@color/rich_black"
+        app:layout_constraintEnd_toEndOf="@+id/tvb"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/tvb2"
+        app:layout_constraintTop_toBottomOf="@+id/tvb"
+        tools:ignore="TouchTargetSizeCheck,TextContrastCheck" />
+
+    <Spinner
+        android:id="@+id/spinnerTimeSlot"
+        android:layout_width="170dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/edit_text_background2"
+        app:layout_constraintEnd_toEndOf="@+id/editTextDate"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/tvb3"
+        app:layout_constraintTop_toBottomOf="@+id/editTextDate" />
+
+    <Spinner
+        android:id="@+id/spinnerService"
+        android:layout_width="170dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/edit_text_background2"
+        app:layout_constraintEnd_toEndOf="@+id/editTextDate"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/tvb3"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerTimeSlot" />
+
+    <EditText
+        android:id="@+id/editTextTextPersonName"
+        android:layout_width="250dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="20dp"
+        android:autofillHints=""
+        android:background="@drawable/edit_text_background3"
+        android:ems="10"
+        android:fontFamily="@font/poppins"
+        android:gravity="center"
+        android:hint="@string/enter_discount_code_here"
+        android:inputType="textPersonName"
+        android:textColorHint="@color/rich_black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerService"
+        tools:ignore="TouchTargetSizeCheck" />
+
+    <TextView
+        android:id="@+id/editTextTextPersonName2"
+        android:layout_width="150dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="20dp"
+        android:autofillHints=""
+        android:background="@drawable/edit_text_background2"
+        android:ems="10"
+        android:fontFamily="@font/poppins"
+        android:gravity="center|start"
+        android:paddingStart="5dp"
+        android:paddingTop="2dp"
+        android:paddingEnd="5dp"
+        android:text="@string/_35"
+        android:textColor="@color/rich_black"
+        app:layout_constraintEnd_toEndOf="@+id/spinnerService"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/tvb5"
+        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName"
+        tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
