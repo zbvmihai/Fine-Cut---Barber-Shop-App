@@ -9,17 +9,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.finecut.barbershop.adapters.BarbersAdapter
 import com.finecut.barbershop.databinding.ActivityMainBinding
 import com.finecut.barbershop.models.Barbers
-import com.google.firebase.database.*
+import com.finecut.barbershop.utils.FirebaseData.DBHelper
+import com.google.firebase.database.DatabaseError
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var mainBinding: ActivityMainBinding
     private var backPressedTime: Long = 0
 
-    private val database: FirebaseDatabase = FirebaseDatabase.getInstance()
-    private val myReference: DatabaseReference = database.reference.child("Barbers")
-
-    private val barbersList = ArrayList<Barbers>()
     private lateinit var barbersAdapter: BarbersAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,39 +60,25 @@ class MainActivity : AppCompatActivity() {
 
     private fun retrieveBarbersFromDatabase(){
 
-        myReference.addValueEventListener(object : ValueEventListener{
-            override fun onDataChange(snapshot: DataSnapshot) {
 
-                barbersList.clear()
 
-                for (eachBarber in snapshot.children){
+        DBHelper.getBarbersFromDatabase(object:
+            DBHelper.BarbersCallback {
+            override fun onSuccess(barbersList: ArrayList<Barbers>) {
 
-                    val barber = eachBarber.getValue(Barbers::class.java)
-
-                    if (barber !=null){
-
-                        barbersList.add(barber)
-
-                    }
-
-                    barbersAdapter = BarbersAdapter(this@MainActivity,barbersList)
-
-                    mainBinding.rvMain.layoutManager = LinearLayoutManager(this@MainActivity)
-
-                    mainBinding.rvMain.adapter = barbersAdapter
-                }
-
+                barbersAdapter = BarbersAdapter(this@MainActivity,barbersList)
+                mainBinding.rvMain.layoutManager = LinearLayoutManager(this@MainActivity)
+                mainBinding.rvMain.adapter = barbersAdapter
             }
 
-            override fun onCancelled(error: DatabaseError) {
+            override fun onFailure(error: DatabaseError) {
                 Log.e("Database Error: ", error.toString())
             }
-
         })
     }
-
 }
 
+//Use this to setup the back button of each activity in the action bar
 
 //    override fun onOptionsItemSelected(item: MenuItem): Boolean {
 //        return when (item.itemId) {

@@ -54,7 +54,6 @@ class BarbersAdapter(private var context: Context,
                 }
             }
         })
-
     }
 
     override fun getItemCount(): Int {

@@ -176,9 +176,11 @@
         android:fontFamily="@font/poppins_bold"
         android:gravity="center"
         android:hint="@string/select_a_date"
+        android:padding="2dp"
         android:textColor="@color/rich_black"
         android:textColorHint="@color/rich_black"
         android:textColorLink="@color/rich_black"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="@+id/tvb"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/tvb2"
@@ -194,7 +196,8 @@
         app:layout_constraintEnd_toEndOf="@+id/editTextDate"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/tvb3"
-        app:layout_constraintTop_toBottomOf="@+id/editTextDate" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextDate"
+        tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
     <Spinner
         android:id="@+id/spinnerService"
@@ -205,7 +208,8 @@
         app:layout_constraintEnd_toEndOf="@+id/editTextDate"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/tvb3"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerTimeSlot" />
+        app:layout_constraintTop_toBottomOf="@+id/spinnerTimeSlot"
+        tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 
     <EditText
         android:id="@+id/editTextTextPersonName"
