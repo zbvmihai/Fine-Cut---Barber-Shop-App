@@ -29,9 +29,9 @@ class BarbersAdapter(private var context: Context,
 
     override fun onBindViewHolder(holder: BarbersViewHolder, position: Int) {
 
-        holder.adapterBinding.tvBarberName.text = barbersList[holder.adapterPosition].barberName
-        holder.adapterBinding.tvBarberDescription.text = barbersList[holder.adapterPosition].barberDescription
-        holder.adapterBinding.rbBarberRating.rating = barbersList[holder.adapterPosition].barberRating.toFloat()
+        holder.adapterBinding.tvBarberName.text = barbersList[holder.adapterPosition].name
+        holder.adapterBinding.tvBarberDescription.text = barbersList[holder.adapterPosition].description
+        holder.adapterBinding.rbBarberRating.rating = barbersList[holder.adapterPosition].rating
 
         holder.adapterBinding.llBarber.setOnClickListener {
 
@@ -42,7 +42,7 @@ class BarbersAdapter(private var context: Context,
 
         }
 
-        val barberImageUrl = barbersList[holder.adapterPosition].barberImage
+        val barberImageUrl = barbersList[holder.adapterPosition].image
         Picasso.get().load(barberImageUrl).into(holder.adapterBinding.ivBarberImage, object : Callback{
             override fun onSuccess() {
                 holder.adapterBinding.pbBarberImage.visibility = View.GONE
