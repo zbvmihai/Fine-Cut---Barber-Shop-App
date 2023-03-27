@@ -9,7 +9,7 @@ data class Barbers(
     val barberName: String = "",
     val barberRating: Double = 5.0,
     val barberDescription: String = "",
-    val timeslots: List<Timeslot> = emptyList()
+
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
@@ -17,7 +17,7 @@ data class Barbers(
         parcel.readString()!!,
         parcel.readDouble(),
         parcel.readString()!!,
-        parcel.createTypedArrayList(Timeslot.CREATOR) ?: emptyList()
+
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -26,7 +26,7 @@ data class Barbers(
         parcel.writeString(barberName)
         parcel.writeDouble(barberRating)
         parcel.writeString(barberDescription)
-        parcel.writeTypedList(timeslots)
+
     }
 
     override fun describeContents(): Int {

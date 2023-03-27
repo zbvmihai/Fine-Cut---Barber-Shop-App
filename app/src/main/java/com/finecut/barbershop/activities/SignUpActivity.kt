@@ -114,7 +114,7 @@ class SignUpActivity : AppCompatActivity() {
 
     private fun addUserToDatabase(firstName: String,surname:String, email: String,phoneNumber:Long){
 
-        val user = Users(userId,firstName,surname,email,phoneNumber)
+        val user = Users(userId,firstName,surname,email,phoneNumber,1)
 
         myReference.child(userId).setValue(user).addOnCompleteListener { task ->
 
