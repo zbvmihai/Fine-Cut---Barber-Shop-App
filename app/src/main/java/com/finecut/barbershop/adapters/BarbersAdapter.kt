@@ -17,6 +17,7 @@ class BarbersAdapter(private var context: Context,
     private var barbersList: ArrayList<Barbers>
 ): RecyclerView.Adapter<BarbersAdapter.BarbersViewHolder>() {
 
+
     inner class BarbersViewHolder(val adapterBinding: BarbersCardBinding)
         : RecyclerView.ViewHolder(adapterBinding.root)
 

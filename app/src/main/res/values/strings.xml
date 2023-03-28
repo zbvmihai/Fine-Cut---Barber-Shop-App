@@ -44,6 +44,7 @@
     <string name="_35">35$</string>
     <string name="select_a_time_slot">Select a time slot</string>
     <string name="select_a_service">Select a service</string>
+    <string name="apply_discount">Apply Discount!</string>
 
 
 </resources>

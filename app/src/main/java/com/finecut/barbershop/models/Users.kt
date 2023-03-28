@@ -12,7 +12,7 @@ data class Users(
     val isClient: Int = 1,
     val image: String = "",
     val bookings: List<Bookings> = emptyList(),
-    val points: String = ""
+    val points: Long = 0
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
@@ -23,7 +23,7 @@ data class Users(
         parcel.readInt(),
         parcel.readString()!!,
         parcel.createTypedArrayList(Bookings.CREATOR)!!,
-        parcel.readString()!!
+        parcel.readLong()
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -35,7 +35,7 @@ data class Users(
         parcel.writeInt(isClient)
         parcel.writeString(image)
         parcel.writeTypedList(bookings)
-        parcel.writeString(points)
+        parcel.writeLong(points)
     }
 
     override fun describeContents(): Int {

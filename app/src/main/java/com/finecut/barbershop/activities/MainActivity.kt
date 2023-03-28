@@ -30,6 +30,11 @@ class MainActivity : AppCompatActivity() {
         retrieveBarbersFromDatabase()
     }
 
+    override fun onResume() {
+        super.onResume()
+        retrieveBarbersFromDatabase()
+    }
+
     private fun setupActionBar() {
         setSupportActionBar(mainBinding.tbMain)
 
@@ -60,8 +65,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun retrieveBarbersFromDatabase(){
 
-
-
         DBHelper.getBarbersFromDatabase(object:
             DBHelper.BarbersCallback {
             override fun onSuccess(barbersList: ArrayList<Barbers>) {
@@ -78,16 +81,4 @@ class MainActivity : AppCompatActivity() {
     }
 }
 
-//Use this to setup the back button of each activity in the action bar
 
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        return when (item.itemId) {
-//            android.R.id.home -> {
-//
-//                Toast.makeText(this@MainActivity,"Back Clicked",Toast.LENGTH_SHORT).show()
-//                true
-//            }
-//            else -> super.onOptionsItemSelected(item)
-//        }
-//    }
-//}
