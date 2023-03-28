@@ -16,7 +16,7 @@
         android:textColor="@color/naples_yellow"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="@+id/tvb4"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
+        app:layout_constraintTop_toBottomOf="@+id/btnApplyDiscount" />
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/tbBooking"
@@ -103,7 +103,7 @@
         android:id="@+id/btnBook"
         android:layout_width="160dp"
         android:layout_height="50dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="35dp"
         android:background="@drawable/button2_selector"
         android:fontFamily="@font/poppins_bold"
         android:gravity="center"
@@ -113,7 +113,25 @@
         android:textSize="34sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName2"
+        app:layout_constraintTop_toBottomOf="@+id/etTotalPrice"
+        tools:ignore="TouchTargetSizeCheck" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnApplyDiscount"
+        android:layout_width="145dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/button2_selector"
+        android:fontFamily="@font/poppins_bold"
+        android:gravity="center"
+        android:text="@string/apply_discount"
+        android:textAllCaps="false"
+        android:textColor="@color/rich_black"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.492"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etDiscountCode"
         tools:ignore="TouchTargetSizeCheck" />
 
     <TextView
@@ -166,7 +184,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tvb3" />
 
     <TextView
-        android:id="@+id/editTextDate"
+        android:id="@+id/etBookingPickDate"
         android:layout_width="170dp"
         android:layout_height="35dp"
         android:layout_marginTop="10dp"
@@ -176,9 +194,11 @@
         android:fontFamily="@font/poppins_bold"
         android:gravity="center"
         android:hint="@string/select_a_date"
+        android:padding="2dp"
         android:textColor="@color/rich_black"
         android:textColorHint="@color/rich_black"
         android:textColorLink="@color/rich_black"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="@+id/tvb"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/tvb2"
@@ -191,10 +211,11 @@
         android:layout_height="35dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/edit_text_background2"
-        app:layout_constraintEnd_toEndOf="@+id/editTextDate"
+        app:layout_constraintEnd_toEndOf="@+id/etBookingPickDate"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/tvb3"
-        app:layout_constraintTop_toBottomOf="@+id/editTextDate" />
+        app:layout_constraintTop_toBottomOf="@+id/etBookingPickDate"
+        tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
     <Spinner
         android:id="@+id/spinnerService"
@@ -202,13 +223,14 @@
         android:layout_height="35dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/edit_text_background2"
-        app:layout_constraintEnd_toEndOf="@+id/editTextDate"
+        app:layout_constraintEnd_toEndOf="@+id/etBookingPickDate"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/tvb3"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerTimeSlot" />
+        app:layout_constraintTop_toBottomOf="@+id/spinnerTimeSlot"
+        tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName"
+        android:id="@+id/etDiscountCode"
         android:layout_width="250dp"
         android:layout_height="35dp"
         android:layout_marginTop="20dp"
@@ -226,7 +248,7 @@
         tools:ignore="TouchTargetSizeCheck" />
 
     <TextView
-        android:id="@+id/editTextTextPersonName2"
+        android:id="@+id/etTotalPrice"
         android:layout_width="150dp"
         android:layout_height="30dp"
         android:layout_marginTop="20dp"
@@ -235,15 +257,15 @@
         android:ems="10"
         android:fontFamily="@font/poppins"
         android:gravity="center|start"
-        android:paddingStart="5dp"
+        android:paddingStart="10dp"
         android:paddingTop="2dp"
-        android:paddingEnd="5dp"
+        android:paddingEnd="10dp"
         android:text="@string/_35"
         android:textColor="@color/rich_black"
         app:layout_constraintEnd_toEndOf="@+id/spinnerService"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/tvb5"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName"
+        app:layout_constraintTop_toBottomOf="@+id/btnApplyDiscount"
         tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

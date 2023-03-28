@@ -2,21 +2,41 @@
 
 package com.finecut.barbershop.activities
 
+import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
 import android.view.View
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.finecut.barbershop.R
 import com.finecut.barbershop.databinding.ActivityBookingBinding
 import com.finecut.barbershop.models.Barbers
+import com.finecut.barbershop.models.Bookings
+import com.finecut.barbershop.models.Offers
+import com.finecut.barbershop.models.Users
+import com.finecut.barbershop.utils.FirebaseData
+import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseError
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.math.roundToInt
 
 class BookingActivity : AppCompatActivity() {
 
     private var barbersList: ArrayList<Barbers> = arrayListOf()
     private var position: Int = 0
+    private var timeSlotsList: List<String> = emptyList()
+    private var offersList : List<Offers> = emptyList()
+
+    private val auth: FirebaseAuth = FirebaseAuth.getInstance()
 
     private lateinit var bookingBinding: ActivityBookingBinding
 
@@ -26,18 +46,31 @@ class BookingActivity : AppCompatActivity() {
         val view = bookingBinding.root
         setContentView(view)
 
-        val timeSlots = listOf("9:00 AM - 10:00 AM", "10:00 AM - 11:00 AM",
-            "11:00 AM - 12:00 PM", "12:00 PM - 1:00 PM", "1:00 PM - 2:00 PM",
-            "11:00 AM - 12:00 PM", "12:00 PM - 1:00 PM", "1:00 PM - 2:00 PM",
-            "11:00 AM - 12:00 PM", "12:00 PM - 1:00 PM", "1:00 PM - 2:00 PM",
-            "2:00 PM - 3:00 PM", "3:00 PM - 4:00 PM", "4:00 PM - 5:00 PM")
-
-        val adapter = ArrayAdapter(this, R.layout.spinner_item, timeSlots)
-        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
-        bookingBinding.spinnerTimeSlot.adapter = adapter
-
+        setupActionBar()
+        loadOffers()
         getAndSetData()
 
+        bookingBinding.btnSeeReviews.setOnClickListener {
+            startActivity(Intent(this@BookingActivity,ReviewsActivity::class.java))
+        }
+
+        bookingBinding.etBookingPickDate.setOnClickListener {
+            pickDate()
+        }
+
+        bookingBinding.btnApplyDiscount.setOnClickListener {
+            val discountCode = bookingBinding.etDiscountCode.text.toString().trim()
+            if (discountCode.isNotEmpty()) {
+                applyDiscount(discountCode)
+            } else {
+                Toast.makeText(this@BookingActivity, "Please enter a discount code.", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        bookingBinding.btnBook.setOnClickListener {
+            saveBooking()
+
+        }
     }
 
     private fun getAndSetData() {
@@ -45,10 +78,10 @@ class BookingActivity : AppCompatActivity() {
         barbersList = intent.getParcelableArrayListExtra("barbersList")!!
         position = intent.getIntExtra("position", 0)
 
-        bookingBinding.bookingTbTitle.text = barbersList[position].barberName
-        bookingBinding.rbBookingBarberRating.rating = barbersList[position].barberRating.toFloat()
+        bookingBinding.bookingTbTitle.text = barbersList[position].name
+        bookingBinding.rbBookingBarberRating.rating = barbersList[position].rating
 
-        Picasso.get().load(barbersList[position].barberImage)
+        Picasso.get().load(barbersList[position].image)
             .into(bookingBinding.ivBookingBarberImage, object :
                 Callback {
                 override fun onSuccess() {
@@ -61,5 +94,205 @@ class BookingActivity : AppCompatActivity() {
                     }
                 }
             })
+
+        val timeSlotsAdapter = ArrayAdapter(this, R.layout.spinner_item, timeSlotsList)
+        timeSlotsAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
+        bookingBinding.spinnerTimeSlot.adapter = timeSlotsAdapter
+
+        val services = barbersList[position].services
+        val servicesList = arrayListOf<String>()
+
+        for (service in services) {
+            servicesList.add(service.name)
+
+            val servicesAdapter = ArrayAdapter(this, R.layout.spinner_item, servicesList)
+            servicesAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
+            bookingBinding.spinnerService.adapter = servicesAdapter
+            bookingBinding.spinnerService.onItemSelectedListener = object :
+                AdapterView.OnItemSelectedListener {
+                @SuppressLint("SetTextI18n")
+                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                    val selectedService = services[position]
+                    val serviceTotal = selectedService.cost
+                    bookingBinding.etTotalPrice.text = serviceTotal + "£"
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                    bookingBinding.etTotalPrice.text = ""
+                }
+            }
+        }
+        val currentDate = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(Date())
+        bookingBinding.etBookingPickDate.text = currentDate
+
+        val availableTimeSlots = getAvailableTimeSlots(barbersList[position].bookings, currentDate)
+        if (availableTimeSlots.isEmpty()) {
+            Toast.makeText(
+                this@BookingActivity,
+                "All timeslots are booked for this day, please select another date.",
+                Toast.LENGTH_LONG
+            ).show()
+            updateTimeSlotsSpinner(emptyList())
+        } else {
+            updateTimeSlotsSpinner(availableTimeSlots)
+        }
+
+    }
+
+    private fun getAvailableTimeSlots(bookings: List<Bookings>, selectedDate: String): List<String> {
+
+        val allTimeSlots = listOf(
+            "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00",
+            "16:00", "17:00", "18:00", "19:00", "20:00"
+        )
+
+        val filteredBookings = bookings.filter { it.date == selectedDate }
+        val bookedTimeSlots = filteredBookings.map { it.timeslot }
+
+        return allTimeSlots.filterNot { bookedTimeSlots.contains(it) }
+    }
+
+    private fun updateTimeSlotsSpinner(availableTimeSlots: List<String>) {
+        timeSlotsList = availableTimeSlots
+        val timeSlotsAdapter = ArrayAdapter(this, R.layout.spinner_item, availableTimeSlots)
+        timeSlotsAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
+        bookingBinding.spinnerTimeSlot.adapter = timeSlotsAdapter
+    }
+
+    private fun pickDate() {
+
+        val builder = MaterialDatePicker.Builder.datePicker()
+        val picker = builder.build()
+        picker.addOnPositiveButtonClickListener { selection ->
+            val selectedDate = Date(selection)
+            val dateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()) // Change the format here
+            val formattedDate = dateFormat.format(selectedDate)
+            bookingBinding.etBookingPickDate.text = formattedDate
+
+            val availableTimeSlots = getAvailableTimeSlots(barbersList[position].bookings, formattedDate)
+            if (availableTimeSlots.isEmpty()) {
+                Toast.makeText(
+                    this@BookingActivity,
+                    "All timeslots are booked for this day, please select another date.",
+                    Toast.LENGTH_LONG
+                ).show()
+                updateTimeSlotsSpinner(emptyList())
+            } else {
+                updateTimeSlotsSpinner(availableTimeSlots)
+            }
+        }
+        picker.show(supportFragmentManager, picker.toString())
+    }
+
+    private fun loadOffers(){
+        FirebaseData.DBHelper.getOffersFromDatabase(object: FirebaseData.DBHelper.OffersCallback{
+            override fun onSuccess(offers: ArrayList<Offers>) {
+                offersList = offers
+                Log.d("OffersLoaded", "Loaded offers: $offersList")
+            }
+
+            override fun onFailure(error: DatabaseError) {
+                offersList = emptyList()
+                Log.e("DatabaseError", error.details)
+            }
+
+        })
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun applyDiscount(discountCode: String) {
+        val selectedOffer = offersList.firstOrNull { it.code == discountCode }
+
+        if (selectedOffer != null) {
+            val originalPrice = bookingBinding.etTotalPrice.text.toString().replace("£", "").toDouble()
+            val discountAmount = originalPrice * selectedOffer.deduction / 100
+            val newPrice = originalPrice - discountAmount
+            bookingBinding.etTotalPrice.text = String.format("%.2f£", newPrice)
+            Toast.makeText(this, "Discount applied: ${selectedOffer.name}", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(this, "Invalid discount code. Please try again.", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun saveBooking() {
+        val userId = auth.currentUser?.uid ?: ""
+        val barberId = barbersList[position].id
+        val date = bookingBinding.etBookingPickDate.text.toString()
+        val timeslot = bookingBinding.spinnerTimeSlot.selectedItem.toString()
+        val service = bookingBinding.spinnerService.selectedItem.toString()
+        val bookStatus = 1
+        val discountCode = bookingBinding.etDiscountCode.text.toString().trim()
+        val offer = discountCode.ifEmpty { "" }
+
+        val formattedTimeslot = timeslot.replace(":", "-")
+
+        val booking = Bookings(userId, barberId, date, timeslot, service, bookStatus, offer)
+
+        // Save booking under Users
+        FirebaseData.DBHelper.usersRef.child(userId).child("bookings").child(barberId).child("$date-$formattedTimeslot").setValue(booking)
+            .addOnSuccessListener {
+                // Save booking under Barbers
+                FirebaseData.DBHelper.barbersRef.child(barberId).child("bookings").child("$date-$formattedTimeslot").setValue(booking)
+                    .addOnSuccessListener {
+                        Toast.makeText(applicationContext, "Booking saved successfully.", Toast.LENGTH_SHORT).show()
+                        finish()
+
+                        val totalPrice = bookingBinding.etTotalPrice.text.toString().replace("£", "").toDouble()
+                        addPointsToUser(booking.userId, totalPrice)
+                    }
+                    .addOnFailureListener { e ->
+                        Toast.makeText(this@BookingActivity, "Failed to save booking!", Toast.LENGTH_SHORT).show()
+                        e.localizedMessage?.let { it -> Log.e("DatabaseError: ", it) }
+                    }
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(this@BookingActivity, "Failed to save booking!", Toast.LENGTH_SHORT).show()
+                e.localizedMessage?.let { Log.e("DatabaseError: ", it) }
+            }
+    }
+
+    private fun addPointsToUser(userId: String, totalPrice: Double) {
+        val pointsToAdd = (totalPrice * 0.10).roundToInt()
+
+        FirebaseData.DBHelper.getCurrentUserFromDatabase(userId, object : FirebaseData.DBHelper.CurrentUserCallback {
+            override fun onSuccess(currentUser: Users) {
+                val currentPoints = currentUser.points
+                val newPoints = currentPoints + pointsToAdd
+
+                // Update the user's points
+                FirebaseData.DBHelper.usersRef.child(userId).child("points").setValue(newPoints)
+                    .addOnSuccessListener {
+                        Log.d("PointsUpdate", "Successfully added $pointsToAdd points to user $userId.")
+                        Toast.makeText(applicationContext, "You now have $newPoints points!", Toast.LENGTH_SHORT).show()
+                    }
+                    .addOnFailureListener { e ->
+                        Log.e("PointsUpdateError", "Failed to add points to user $userId: ${e.localizedMessage}")
+                    }
+            }
+
+            override fun onFailure(error: DatabaseError) {
+                Log.e("UserNotFound", "User not found with ID: $userId, $error")
+            }
+        })
+    }
+
+    private fun setupActionBar() {
+        setSupportActionBar(bookingBinding.tbBooking)
+
+        val actionBar = supportActionBar
+
+        actionBar?.setDisplayShowTitleEnabled(false)
+        actionBar?.setDisplayHomeAsUpEnabled(true)
+        actionBar?.setHomeAsUpIndicator(ContextCompat.getDrawable(this, R.drawable.back_button))
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                finish()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }

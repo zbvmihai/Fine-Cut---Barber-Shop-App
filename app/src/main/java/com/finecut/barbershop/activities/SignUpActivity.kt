@@ -61,7 +61,8 @@ class SignUpActivity : AppCompatActivity() {
                     addUserToDatabase(userFirstName,userSurname,userEmail,userPhoneNumber.toLong())
 
                 }else{
-                    Toast.makeText(applicationContext, task.exception.toString(), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(applicationContext, "Failed to create an account!", Toast.LENGTH_SHORT).show()
+                    Log.e("Error:",task.exception.toString())
                 }
             }
         } else {

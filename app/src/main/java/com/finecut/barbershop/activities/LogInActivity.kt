@@ -88,7 +88,6 @@ class LogInActivity : AppCompatActivity() {
                     .show()
                 false
             }
-
             else -> {
                 true
             }
