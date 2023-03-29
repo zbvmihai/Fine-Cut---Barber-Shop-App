@@ -37,8 +37,7 @@ class BarbersAdapter(private var context: Context,
         holder.adapterBinding.llBarber.setOnClickListener {
 
             val intent = Intent(context,BookingActivity::class.java)
-            intent.putParcelableArrayListExtra("barbersList", barbersList)
-            intent.putExtra("position", holder.adapterPosition)
+            intent.putExtra("barber",barbersList[holder.adapterPosition])
             context.startActivity(intent)
 
         }

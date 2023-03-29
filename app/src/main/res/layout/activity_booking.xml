@@ -6,18 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".activities.BookingActivity">
 
-    <TextView
-        android:id="@+id/tvb5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:fontFamily="@font/poppins"
-        android:text="@string/total"
-        android:textColor="@color/naples_yellow"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="@+id/tvb4"
-        app:layout_constraintTop_toBottomOf="@+id/btnApplyDiscount" />
-
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/tbBooking"
         android:layout_width="match_parent"
@@ -99,22 +87,7 @@
         app:layout_constraintTop_toBottomOf="@+id/rbBookingBarberRating"
         tools:ignore="TouchTargetSizeCheck" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnBook"
-        android:layout_width="160dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="35dp"
-        android:background="@drawable/button2_selector"
-        android:fontFamily="@font/poppins_bold"
-        android:gravity="center"
-        android:text="@string/book"
-        android:textAllCaps="false"
-        android:textColor="@color/rich_black"
-        android:textSize="34sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etTotalPrice"
-        tools:ignore="TouchTargetSizeCheck" />
+
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnApplyDiscount"
@@ -267,5 +240,34 @@
         app:layout_constraintStart_toEndOf="@+id/tvb5"
         app:layout_constraintTop_toBottomOf="@+id/btnApplyDiscount"
         tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+
+    <TextView
+        android:id="@+id/tvb5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/poppins"
+        android:text="@string/total"
+        android:textColor="@color/naples_yellow"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@+id/tvb4"
+        app:layout_constraintTop_toBottomOf="@+id/btnApplyDiscount" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnBook"
+        android:layout_width="160dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="35dp"
+        android:background="@drawable/button2_selector"
+        android:fontFamily="@font/poppins_bold"
+        android:gravity="center"
+        android:text="@string/book"
+        android:textAllCaps="false"
+        android:textColor="@color/rich_black"
+        android:textSize="34sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etTotalPrice"
+        tools:ignore="TouchTargetSizeCheck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

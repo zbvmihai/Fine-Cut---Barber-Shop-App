@@ -31,8 +31,8 @@ import kotlin.math.roundToInt
 
 class BookingActivity : AppCompatActivity() {
 
-    private var barbersList: ArrayList<Barbers> = arrayListOf()
-    private var position: Int = 0
+    private lateinit var barber: Barbers
+
     private var timeSlotsList: List<String> = emptyList()
     private var offersList : List<Offers> = emptyList()
 
@@ -51,7 +51,9 @@ class BookingActivity : AppCompatActivity() {
         getAndSetData()
 
         bookingBinding.btnSeeReviews.setOnClickListener {
-            startActivity(Intent(this@BookingActivity,ReviewsActivity::class.java))
+            val intent = Intent(this@BookingActivity,ReviewsActivity::class.java)
+            intent.putExtra("barber",barber)
+            startActivity(intent)
         }
 
         bookingBinding.etBookingPickDate.setOnClickListener {
@@ -75,13 +77,12 @@ class BookingActivity : AppCompatActivity() {
 
     private fun getAndSetData() {
 
-        barbersList = intent.getParcelableArrayListExtra("barbersList")!!
-        position = intent.getIntExtra("position", 0)
+        barber = intent.getParcelableExtra("barber")!!
 
-        bookingBinding.bookingTbTitle.text = barbersList[position].name
-        bookingBinding.rbBookingBarberRating.rating = barbersList[position].rating
+        bookingBinding.bookingTbTitle.text = barber.name
+        bookingBinding.rbBookingBarberRating.rating = barber.rating
 
-        Picasso.get().load(barbersList[position].image)
+        Picasso.get().load(barber.image)
             .into(bookingBinding.ivBookingBarberImage, object :
                 Callback {
                 override fun onSuccess() {
@@ -99,7 +100,7 @@ class BookingActivity : AppCompatActivity() {
         timeSlotsAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
         bookingBinding.spinnerTimeSlot.adapter = timeSlotsAdapter
 
-        val services = barbersList[position].services
+        val services = barber.services
         val servicesList = arrayListOf<String>()
 
         for (service in services) {
@@ -125,7 +126,7 @@ class BookingActivity : AppCompatActivity() {
         val currentDate = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(Date())
         bookingBinding.etBookingPickDate.text = currentDate
 
-        val availableTimeSlots = getAvailableTimeSlots(barbersList[position].bookings, currentDate)
+        val availableTimeSlots = getAvailableTimeSlots(barber.bookings, currentDate)
         if (availableTimeSlots.isEmpty()) {
             Toast.makeText(
                 this@BookingActivity,
@@ -136,7 +137,6 @@ class BookingActivity : AppCompatActivity() {
         } else {
             updateTimeSlotsSpinner(availableTimeSlots)
         }
-
     }
 
     private fun getAvailableTimeSlots(bookings: List<Bookings>, selectedDate: String): List<String> {
@@ -169,7 +169,7 @@ class BookingActivity : AppCompatActivity() {
             val formattedDate = dateFormat.format(selectedDate)
             bookingBinding.etBookingPickDate.text = formattedDate
 
-            val availableTimeSlots = getAvailableTimeSlots(barbersList[position].bookings, formattedDate)
+            val availableTimeSlots = getAvailableTimeSlots(barber.bookings, formattedDate)
             if (availableTimeSlots.isEmpty()) {
                 Toast.makeText(
                     this@BookingActivity,
@@ -195,7 +195,6 @@ class BookingActivity : AppCompatActivity() {
                 offersList = emptyList()
                 Log.e("DatabaseError", error.details)
             }
-
         })
     }
 
@@ -215,8 +214,9 @@ class BookingActivity : AppCompatActivity() {
     }
 
     private fun saveBooking() {
+
         val userId = auth.currentUser?.uid ?: ""
-        val barberId = barbersList[position].id
+        val barberId = barber.id
         val date = bookingBinding.etBookingPickDate.text.toString()
         val timeslot = bookingBinding.spinnerTimeSlot.selectedItem.toString()
         val service = bookingBinding.spinnerService.selectedItem.toString()

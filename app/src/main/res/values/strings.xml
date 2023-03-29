@@ -45,6 +45,8 @@
     <string name="select_a_time_slot">Select a time slot</string>
     <string name="select_a_service">Select a service</string>
     <string name="apply_discount">Apply Discount!</string>
+    <string name="client_name">Client Name</string>
+    <string name="barber_name_reviews">Barber Name Reviews</string>
 
 
 </resources>
