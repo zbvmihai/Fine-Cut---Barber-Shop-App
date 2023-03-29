@@ -33,6 +33,7 @@
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_marginTop="5dp"
+        android:contentDescription="@string/logo"
         android:cropToPadding="false"
         android:scaleX="1.2"
         android:scaleY="1.2"
@@ -40,9 +41,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tbMain"
-        android:contentDescription="@string/logo" />
+        app:layout_constraintTop_toBottomOf="@id/tbMain" />
 
+
+    <ProgressBar
+        android:id="@+id/pbMain"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivLogoMain"
+        app:layout_constraintVertical_bias="0.0" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvMain"

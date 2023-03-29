@@ -2,6 +2,7 @@ package com.finecut.barbershop.activities
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
@@ -72,6 +73,8 @@ class MainActivity : AppCompatActivity() {
                 barbersAdapter = BarbersAdapter(this@MainActivity,barbersList)
                 mainBinding.rvMain.layoutManager = LinearLayoutManager(this@MainActivity)
                 mainBinding.rvMain.adapter = barbersAdapter
+                mainBinding.pbMain.visibility = View.GONE
+
             }
 
             override fun onFailure(error: DatabaseError) {
