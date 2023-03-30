@@ -38,6 +38,7 @@
             tools:layout_editor_absoluteX="55dp"
             tools:layout_editor_absoluteY="13dp"
             tools:visibility="visible"
+            tools:src="@tools:sample/avatars"
             app:layout_constraintTop_toTopOf="@+id/ivClientImage"
             app:layout_constraintStart_toStartOf="@+id/ivClientImage"
             app:layout_constraintEnd_toEndOf="@+id/ivClientImage"

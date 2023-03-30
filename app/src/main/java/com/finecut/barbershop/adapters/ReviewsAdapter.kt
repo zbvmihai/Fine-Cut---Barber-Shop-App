@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.finecut.barbershop.R
 import com.finecut.barbershop.databinding.ReviewsCardBinding
 import com.finecut.barbershop.models.Reviews
 import com.finecut.barbershop.models.Users
@@ -35,7 +36,7 @@ private var reviewsList: ArrayList<Reviews>)
                 holder.adapterBinding.tvClientName.text = "${currentUser.firstName} ${currentUser.surname}"
                 holder.adapterBinding.rbClientRating.rating = reviewsList[holder.adapterPosition].rating
 
-                Picasso.get().load(currentUser.image.ifEmpty { "https://www.shareicon.net/data/128x128/2016/05/24/770137_man_512x512.png" })
+                Picasso.get().load(currentUser.image.ifEmpty { context.getString(R.string.userImagePlaceHolder) })
                     .into(holder.adapterBinding.ivClientImage, object :
                         Callback {
                         override fun onSuccess() {

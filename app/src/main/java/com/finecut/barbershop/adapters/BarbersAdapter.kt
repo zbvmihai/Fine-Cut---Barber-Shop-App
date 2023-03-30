@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.finecut.barbershop.R
 import com.finecut.barbershop.activities.BookingActivity
 import com.finecut.barbershop.databinding.BarbersCardBinding
 import com.finecut.barbershop.models.Barbers
@@ -43,7 +44,7 @@ class BarbersAdapter(private var context: Context,
         }
 
         val barberImageUrl = barbersList[holder.adapterPosition].image
-        Picasso.get().load(barberImageUrl).into(holder.adapterBinding.ivBarberImage, object : Callback{
+        Picasso.get().load(barberImageUrl.ifEmpty { context.getString(R.string.userImagePlaceHolder) }).into(holder.adapterBinding.ivBarberImage, object : Callback{
             override fun onSuccess() {
                 holder.adapterBinding.pbBarberImage.visibility = View.GONE
             }

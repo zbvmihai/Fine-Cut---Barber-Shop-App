@@ -5,15 +5,15 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.finecut.barbershop.adapters.BarbersAdapter
 import com.finecut.barbershop.databinding.ActivityMainBinding
 import com.finecut.barbershop.models.Barbers
+import com.finecut.barbershop.utils.BaseActivity
 import com.finecut.barbershop.utils.FirebaseData.DBHelper
 import com.google.firebase.database.DatabaseError
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
 
     private lateinit var mainBinding: ActivityMainBinding
     private var backPressedTime: Long = 0
@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
         val view = mainBinding.root
         setContentView(view)
 
-        setupActionBar()
+        setupActionAndSideMenuBar(this,mainBinding.tbMain,false,view)
         setupOnBackPressedCallback()
         retrieveBarbersFromDatabase()
     }
@@ -34,14 +34,6 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         retrieveBarbersFromDatabase()
-    }
-
-    private fun setupActionBar() {
-        setSupportActionBar(mainBinding.tbMain)
-
-        val actionBar = supportActionBar
-
-        actionBar?.setDisplayShowTitleEnabled(false)
     }
 
     private fun setupOnBackPressedCallback() {
@@ -60,7 +52,6 @@ class MainActivity : AppCompatActivity() {
                 backPressedTime = System.currentTimeMillis()
             }
         }
-
         onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
     }
 
@@ -74,7 +65,6 @@ class MainActivity : AppCompatActivity() {
                 mainBinding.rvMain.layoutManager = LinearLayoutManager(this@MainActivity)
                 mainBinding.rvMain.adapter = barbersAdapter
                 mainBinding.pbMain.visibility = View.GONE
-
             }
 
             override fun onFailure(error: DatabaseError) {

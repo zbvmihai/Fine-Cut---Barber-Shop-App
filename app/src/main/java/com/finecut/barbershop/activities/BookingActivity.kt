@@ -11,14 +11,13 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import com.finecut.barbershop.R
 import com.finecut.barbershop.databinding.ActivityBookingBinding
 import com.finecut.barbershop.models.Barbers
 import com.finecut.barbershop.models.Bookings
 import com.finecut.barbershop.models.Offers
 import com.finecut.barbershop.models.Users
+import com.finecut.barbershop.utils.BaseActivity
 import com.finecut.barbershop.utils.FirebaseData
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.firebase.auth.FirebaseAuth
@@ -29,7 +28,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.roundToInt
 
-class BookingActivity : AppCompatActivity() {
+class BookingActivity : BaseActivity() {
 
     private lateinit var barber: Barbers
 
@@ -46,7 +45,7 @@ class BookingActivity : AppCompatActivity() {
         val view = bookingBinding.root
         setContentView(view)
 
-        setupActionBar()
+        setupActionAndSideMenuBar(this,bookingBinding.tbBooking,true,view)
         loadOffers()
         getAndSetData()
 
@@ -61,7 +60,7 @@ class BookingActivity : AppCompatActivity() {
         }
 
         bookingBinding.btnApplyDiscount.setOnClickListener {
-            val discountCode = bookingBinding.etDiscountCode.text.toString().trim()
+            val discountCode = bookingBinding.etDiscountCode.text.toString().trim().capitalize()
             if (discountCode.isNotEmpty()) {
                 applyDiscount(discountCode)
             } else {
@@ -82,7 +81,7 @@ class BookingActivity : AppCompatActivity() {
         bookingBinding.bookingTbTitle.text = barber.name
         bookingBinding.rbBookingBarberRating.rating = barber.rating
 
-        Picasso.get().load(barber.image)
+        Picasso.get().load(barber.image.ifEmpty { getString(R.string.userImagePlaceHolder) })
             .into(bookingBinding.ivBookingBarberImage, object :
                 Callback {
                 override fun onSuccess() {
@@ -143,8 +142,7 @@ class BookingActivity : AppCompatActivity() {
 
         val allTimeSlots = listOf(
             "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00",
-            "16:00", "17:00", "18:00", "19:00", "20:00"
-        )
+            "16:00", "17:00", "18:00", "19:00", "20:00")
 
         val filteredBookings = bookings.filter { it.date == selectedDate }
         val bookedTimeSlots = filteredBookings.map { it.timeslot }
@@ -274,16 +272,6 @@ class BookingActivity : AppCompatActivity() {
                 Log.e("UserNotFound", "User not found with ID: $userId, $error")
             }
         })
-    }
-
-    private fun setupActionBar() {
-        setSupportActionBar(bookingBinding.tbBooking)
-
-        val actionBar = supportActionBar
-
-        actionBar?.setDisplayShowTitleEnabled(false)
-        actionBar?.setDisplayHomeAsUpEnabled(true)
-        actionBar?.setHomeAsUpIndicator(ContextCompat.getDrawable(this, R.drawable.back_button))
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

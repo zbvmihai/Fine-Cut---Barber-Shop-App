@@ -4,12 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawerLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_gravity="center">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
+        android:id="@+id/clDrawer"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:background="@color/munsell_blue">
+        android:background="@color/munsell_blue"
+        android:layout_gravity="center_horizontal">
 
         <TextView
             android:id="@+id/tvUserName"
@@ -37,6 +41,17 @@
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.RoundImageView"
             tools:ignore="ImageContrastCheck"
             tools:src="@tools:sample/avatars" />
+
+        <ProgressBar
+            android:id="@+id/pbUserImageDrawer"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@+id/ivUserProfileImage"
+            app:layout_constraintEnd_toEndOf="@+id/ivUserProfileImage"
+            app:layout_constraintStart_toStartOf="@+id/ivUserProfileImage"
+            app:layout_constraintTop_toTopOf="@+id/ivUserProfileImage"
+            tools:visibility="visible" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnMyProfile"

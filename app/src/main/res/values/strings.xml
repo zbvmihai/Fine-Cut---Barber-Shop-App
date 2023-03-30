@@ -55,6 +55,7 @@
     <string name="rate_us">Rate Us</string>
     <string name="rate_app">Rate App</string>
     <string name="log_out">Log Out</string>
+    <string name="userImagePlaceHolder">https://cdn-icons-png.flaticon.com/512/456/456212.png</string>
 
 
 </resources>
