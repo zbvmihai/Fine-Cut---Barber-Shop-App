@@ -1,8 +1,10 @@
 package com.finecut.barbershop.activities
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
 import android.view.View
 import com.finecut.barbershop.R
 import com.finecut.barbershop.databinding.ActivityMyProfileBinding
@@ -20,6 +22,7 @@ class MyProfileActivity : BaseActivity() {
     private var auth = FirebaseAuth.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         myProfileBinding = ActivityMyProfileBinding.inflate(layoutInflater)
         val view = myProfileBinding.root
@@ -57,6 +60,27 @@ class MyProfileActivity : BaseActivity() {
             }
         })
 
+        myProfileBinding.btnMyBookingsEditDetails.setOnClickListener {
+            startActivity(Intent(this,EditDetailsActivity::class.java))
+        }
 
+        myProfileBinding.btnMyBookingsLogOut.setOnClickListener {
+
+            auth.signOut()
+            startActivity(Intent(this, LogInActivity::class.java))
+            finish()
+        }
+
+
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                finish()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }

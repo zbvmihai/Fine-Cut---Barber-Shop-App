@@ -25,7 +25,7 @@ class FirebaseData {
                     val firstName = snapshot.child("firstName").getValue(String::class.java) ?: ""
                     val surname = snapshot.child("surname").getValue(String::class.java) ?: ""
                     val email = snapshot.child("email").getValue(String::class.java) ?: ""
-                    val phoneNumber = snapshot.child("phoneNumber").getValue(Long::class.java) ?: 0L
+                    val phoneNumber = snapshot.child("phoneNumber").getValue(String::class.java) ?: ""
                     val isClient = snapshot.child("isClient").getValue(Int::class.java) ?: 1
                     val image = snapshot.child("image").getValue(String::class.java) ?: ""
                     val bookings = snapshot.child("bookings").children.mapNotNull { it.getValue(Bookings::class.java) }

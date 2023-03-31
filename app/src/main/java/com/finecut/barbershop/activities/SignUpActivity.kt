@@ -58,7 +58,7 @@ class SignUpActivity : AppCompatActivity() {
 
                     userId = auth.currentUser?.uid!!
                     Toast.makeText(applicationContext, "Account created successfully!" , Toast.LENGTH_SHORT).show()
-                    addUserToDatabase(userFirstName,userSurname,userEmail,userPhoneNumber.toLong())
+                    addUserToDatabase(userFirstName,userSurname,userEmail,userPhoneNumber)
 
                 }else{
                     Toast.makeText(applicationContext, "Failed to create an account!", Toast.LENGTH_SHORT).show()
@@ -113,7 +113,7 @@ class SignUpActivity : AppCompatActivity() {
         }
     }
 
-    private fun addUserToDatabase(firstName: String,surname:String, email: String,phoneNumber:Long){
+    private fun addUserToDatabase(firstName: String,surname:String, email: String,phoneNumber:String){
 
         val user = Users(userId,firstName,surname,email,phoneNumber)
 

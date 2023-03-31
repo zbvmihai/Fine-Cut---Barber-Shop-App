@@ -59,6 +59,11 @@
     <string name="loyalty_points">Loyalty points</string>
     <string name="edit_details">Edit Details</string>
     <string name="delete_account">Delete Account</string>
+    <string name="edit_first_name">Edit First Name</string>
+    <string name="edit_surname">Edit Surname</string>
+    <string name="edit_phone_number">Edit Phone Number</string>
+    <string name="edit_password">Edit Password</string>
+    <string name="save">Save</string>
 
 
 </resources>

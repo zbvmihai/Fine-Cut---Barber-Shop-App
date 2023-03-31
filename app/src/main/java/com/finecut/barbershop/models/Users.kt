@@ -8,7 +8,7 @@ data class Users(
     val firstName: String = "",
     val surname: String = "",
     val email: String = "",
-    val phoneNumber: Long = 0,
+    val phoneNumber: String = "",
     val isClient: Int = 1,
     val image: String = "",
     val bookings: List<Bookings> = emptyList(),
@@ -19,7 +19,7 @@ data class Users(
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
-        parcel.readLong(),
+        parcel.readString()!!,
         parcel.readInt(),
         parcel.readString()!!,
         parcel.createTypedArrayList(Bookings.CREATOR)!!,
@@ -31,7 +31,7 @@ data class Users(
         parcel.writeString(firstName)
         parcel.writeString(surname)
         parcel.writeString(email)
-        parcel.writeLong(phoneNumber)
+        parcel.writeString(phoneNumber)
         parcel.writeInt(isClient)
         parcel.writeString(image)
         parcel.writeTypedList(bookings)
