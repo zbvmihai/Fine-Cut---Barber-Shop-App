@@ -70,8 +70,6 @@ class MyProfileActivity : BaseActivity() {
             startActivity(Intent(this, LogInActivity::class.java))
             finish()
         }
-
-
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

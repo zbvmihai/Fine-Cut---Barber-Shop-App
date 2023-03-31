@@ -64,6 +64,9 @@
     <string name="edit_phone_number">Edit Phone Number</string>
     <string name="edit_password">Edit Password</string>
     <string name="save">Save</string>
+    <string name="date_time">Date/Time</string>
+    <string name="service_name">Service Name</string>
+    <string name="amount_paid">Amount Paid:</string>
 
 
 </resources>

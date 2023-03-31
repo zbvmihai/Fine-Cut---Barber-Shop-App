@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.MyBookingsActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/llMyBookings"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".activities.MyBookingsActivity">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/tbMyBookings"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:titleTextColor="@color/rich_black">
+
+            <TextView
+                android:id="@+id/tbEditDetailsText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/poppins_bold"
+                android:text="@string/my_bookings"
+                android:textColor="@color/rich_black"
+                android:textSize="30sp" />
+
+        </androidx.appcompat.widget.Toolbar>
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivMyBookingsUserImage"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="20dp"
+            android:contentDescription="@string/user_image"
+            android:scaleType="centerCrop"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tbMyBookings"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.RoundImageView"
+            tools:ignore="ImageContrastCheck"
+            tools:src="@tools:sample/avatars" />
+
+        <ProgressBar
+            android:id="@+id/pbMyBookings"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@+id/ivMyBookingsUserImage"
+            app:layout_constraintEnd_toEndOf="@+id/ivMyBookingsUserImage"
+            app:layout_constraintStart_toStartOf="@+id/ivMyBookingsUserImage"
+            app:layout_constraintTop_toTopOf="@+id/ivMyBookingsUserImage"
+            tools:visibility="visible" />
+
+        <TextView
+            android:id="@+id/tvMyBookingsUserName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/poppins_bold"
+            android:text="@string/user_name"
+            android:textColor="@color/salmon_pink"
+            android:textSize="34sp"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivMyBookingsUserImage"
+            tools:visibility="visible" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvMyBookings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:padding="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvMyBookingsUserName"
+            tools:listitem="@layout/bookings_card" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>
