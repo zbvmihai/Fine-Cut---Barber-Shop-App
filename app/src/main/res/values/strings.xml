@@ -56,6 +56,9 @@
     <string name="rate_app">Rate App</string>
     <string name="log_out">Log Out</string>
     <string name="userImagePlaceHolder">https://cdn-icons-png.flaticon.com/512/456/456212.png</string>
+    <string name="loyalty_points">Loyalty points</string>
+    <string name="edit_details">Edit Details</string>
+    <string name="delete_account">Delete Account</string>
 
 
 </resources>

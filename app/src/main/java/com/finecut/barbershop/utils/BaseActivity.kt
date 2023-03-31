@@ -22,6 +22,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import com.finecut.barbershop.R
 import com.finecut.barbershop.activities.LogInActivity
+import com.finecut.barbershop.activities.MyProfileActivity
 import com.finecut.barbershop.models.Users
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseError
@@ -226,7 +227,11 @@ open class BaseActivity : AppCompatActivity() {
         val btnLogOut = drawerView.findViewById<Button>(R.id.btnLogOut)
 
         btnMyProfile.setOnClickListener {
-            Toast.makeText(applicationContext, "My Profile clicked", Toast.LENGTH_SHORT).show()
+            context.startActivity(Intent(context,MyProfileActivity::class.java))
+            animClose.start()
+            isDrawerOpen = false
+            overlayView.visibility = View.GONE
+            onBackPressedCallback.isEnabled = false
         }
 
         btnMyBookings.setOnClickListener {

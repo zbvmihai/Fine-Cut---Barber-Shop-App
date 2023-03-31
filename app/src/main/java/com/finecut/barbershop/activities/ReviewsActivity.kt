@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.finecut.barbershop.R
 import com.finecut.barbershop.adapters.ReviewsAdapter
 import com.finecut.barbershop.databinding.ActivityReviewsBinding
 import com.finecut.barbershop.models.Barbers
@@ -35,7 +36,7 @@ class ReviewsActivity : BaseActivity() {
         reviewsBinding.reviewsTbTitle.text = barber.name
         reviewsBinding.rbReviewsBarberRating.rating = barber.rating
 
-        Picasso.get().load(barber.image)
+        Picasso.get().load(barber.image.ifEmpty { getString(R.string.userImagePlaceHolder) })
             .into(reviewsBinding.ivReviewsBarberImage, object :
                 Callback {
                 override fun onSuccess() {
