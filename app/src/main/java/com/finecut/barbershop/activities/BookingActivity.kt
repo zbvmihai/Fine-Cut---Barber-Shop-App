@@ -60,7 +60,8 @@ class BookingActivity : BaseActivity() {
         }
 
         bookingBinding.btnApplyDiscount.setOnClickListener {
-            val discountCode = bookingBinding.etDiscountCode.text.toString().trim().capitalize()
+            val discountCode = bookingBinding.etDiscountCode.text.toString().trim().capitalize(
+                Locale.ROOT)
             if (discountCode.isNotEmpty()) {
                 applyDiscount(discountCode)
             } else {
@@ -221,16 +222,17 @@ class BookingActivity : BaseActivity() {
         val bookStatus = 1
         val discountCode = bookingBinding.etDiscountCode.text.toString().trim()
         val offer = discountCode.ifEmpty { "" }
+        val totalPaid = bookingBinding.etTotalPrice.text.toString()
 
         val formattedTimeslot = timeslot.replace(":", "-")
 
-        val booking = Bookings(userId, barberId, date, timeslot, service, bookStatus, offer)
+        val booking = Bookings(userId, barberId, date, timeslot, service, bookStatus, offer,totalPaid)
 
         // Save booking under Users
-        FirebaseData.DBHelper.usersRef.child(userId).child("bookings").child(barberId).child("$date-$formattedTimeslot").setValue(booking)
+        FirebaseData.DBHelper.usersRef.child(userId).child("Bookings").child("$date-$formattedTimeslot").setValue(booking)
             .addOnSuccessListener {
                 // Save booking under Barbers
-                FirebaseData.DBHelper.barbersRef.child(barberId).child("bookings").child("$date-$formattedTimeslot").setValue(booking)
+                FirebaseData.DBHelper.barbersRef.child(barberId).child("Bookings").child("$date-$formattedTimeslot").setValue(booking)
                     .addOnSuccessListener {
                         Toast.makeText(applicationContext, "Booking saved successfully.", Toast.LENGTH_SHORT).show()
                         finish()

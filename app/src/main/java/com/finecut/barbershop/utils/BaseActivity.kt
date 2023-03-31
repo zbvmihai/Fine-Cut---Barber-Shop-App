@@ -22,6 +22,8 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import com.finecut.barbershop.R
 import com.finecut.barbershop.activities.LogInActivity
+import com.finecut.barbershop.activities.MainActivity
+import com.finecut.barbershop.activities.MyBookingsActivity
 import com.finecut.barbershop.activities.MyProfileActivity
 import com.finecut.barbershop.models.Users
 import com.google.firebase.auth.FirebaseAuth
@@ -232,10 +234,24 @@ open class BaseActivity : AppCompatActivity() {
             isDrawerOpen = false
             overlayView.visibility = View.GONE
             onBackPressedCallback.isEnabled = false
+            if (this::class.java != MainActivity::class.java) {
+                finish()
+            }
         }
 
         btnMyBookings.setOnClickListener {
-            Toast.makeText(applicationContext, "My Bookings clicked", Toast.LENGTH_SHORT).show()
+            if (this::class.java == MyBookingsActivity::class.java) {
+                Toast.makeText(applicationContext,"You are already in My Bookings",Toast.LENGTH_SHORT).show()
+            }else{
+                startActivity(Intent(this, MyBookingsActivity::class.java))
+                animClose.start()
+                isDrawerOpen = false
+                overlayView.visibility = View.GONE
+                onBackPressedCallback.isEnabled = false
+                if (this::class.java != MainActivity::class.java) {
+                    finish()
+                }
+            }
         }
 
         btnOffers.setOnClickListener {

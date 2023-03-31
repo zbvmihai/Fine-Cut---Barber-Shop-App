@@ -60,7 +60,13 @@ class MyProfileActivity : BaseActivity() {
             }
         })
 
+        myProfileBinding.btnMyBookings.setOnClickListener {
+
+            startActivity(Intent(this,MyBookingsActivity::class.java))
+        }
+
         myProfileBinding.btnMyBookingsEditDetails.setOnClickListener {
+
             startActivity(Intent(this,EditDetailsActivity::class.java))
         }
 

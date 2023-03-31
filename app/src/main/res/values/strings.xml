@@ -67,6 +67,7 @@
     <string name="date_time">Date/Time</string>
     <string name="service_name">Service Name</string>
     <string name="amount_paid">Amount Paid:</string>
+    <string name="click_a_booking_to_leave_a_review">Click a booking to leave a review!</string>
 
 
 </resources>

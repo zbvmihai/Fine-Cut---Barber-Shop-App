@@ -46,6 +46,37 @@ class FirebaseData {
             })
         }
 
+        interface BarberCallback {
+            fun onSuccess(barber: Barbers)
+            fun onFailure(error: DatabaseError)
+        }
+
+        fun getBarberFromDatabase(barberId: String, callback: BarberCallback) {
+            barbersRef.child(barberId).addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val id = snapshot.child("id").getValue(String::class.java) ?: ""
+                    val name = snapshot.child("name").getValue(String::class.java) ?: ""
+                    val image = snapshot.child("image").getValue(String::class.java) ?: ""
+                    val rating = snapshot.child("rating").getValue(Float::class.java) ?: 0F
+                    val description = snapshot.child("description").getValue(String::class.java) ?: ""
+
+                    val services = snapshot.child("services").children.mapNotNull { it.getValue(Services::class.java) }
+                    val bookings = snapshot.child("bookings").children.mapNotNull { it.getValue(Bookings::class.java) }
+                    val reviews = snapshot.child("reviews").children.mapNotNull { it.getValue(Reviews::class.java)}
+
+                    val barber = Barbers(id, name, image, rating, description, services, bookings, reviews)
+
+                    callback.onSuccess(barber)
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    callback.onFailure(error)
+                }
+            })
+        }
+
+
+
         interface BarbersCallback {
             fun onSuccess(barbersList: ArrayList<Barbers>)
             fun onFailure(error: DatabaseError)
@@ -64,7 +95,7 @@ class FirebaseData {
                         val description = barberSnapshot.child("description").getValue(String::class.java) ?: ""
 
                         val services = barberSnapshot.child("services").children.mapNotNull { it.getValue(Services::class.java) }
-                        val bookings = barberSnapshot.child("bookings").children.mapNotNull { it.getValue(Bookings::class.java) }
+                        val bookings = barberSnapshot.child("Bookings").children.mapNotNull { it.getValue(Bookings::class.java) }
                         val reviews = barberSnapshot.child("reviews").children.mapNotNull { it.getValue(Reviews::class.java)}
 
                         val barber = Barbers(id, name, image, rating, description, services, bookings, reviews)
@@ -72,6 +103,32 @@ class FirebaseData {
                     }
 
                     callback.onSuccess(barbersList)
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    callback.onFailure(error)
+                }
+            })
+        }
+
+        interface BookingsCallback {
+            fun onSuccess(bookingsList: ArrayList<Bookings>)
+            fun onFailure(error: DatabaseError)
+        }
+
+        fun getBookingsFromDatabase(userId: String,callback: BookingsCallback) {
+            val userBookingsRef = FirebaseDatabase.getInstance().getReference("Users").child(userId).child("Bookings")
+            userBookingsRef.addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+
+                    val bookingsList = ArrayList<Bookings>()
+                    for (bookingSnapshot in snapshot.children) {
+                        val booking = bookingSnapshot.getValue(Bookings::class.java)
+                        if (booking != null) {
+                            bookingsList.add(booking)
+                        }
+                    }
+                    callback.onSuccess(bookingsList)
                 }
 
                 override fun onCancelled(error: DatabaseError) {
