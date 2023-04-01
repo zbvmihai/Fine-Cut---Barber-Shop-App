@@ -206,7 +206,7 @@ class BookingActivity : BaseActivity() {
             val discountAmount = originalPrice * selectedOffer.deduction / 100
             val newPrice = originalPrice - discountAmount
             bookingBinding.etTotalPrice.text = String.format("%.2f£", newPrice)
-            Toast.makeText(this, "Discount applied: ${selectedOffer.name}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Discount applied: ${selectedOffer.code}", Toast.LENGTH_SHORT).show()
         } else {
             Toast.makeText(this, "Invalid discount code. Please try again.", Toast.LENGTH_SHORT).show()
         }

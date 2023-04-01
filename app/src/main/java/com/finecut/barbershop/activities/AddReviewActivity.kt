@@ -23,7 +23,6 @@ class AddReviewActivity : BaseActivity() {
     private lateinit var addReviewBinding: ActivityAddReviewBinding
 
     private lateinit var barber: Barbers
-    private var reviewsList: ArrayList<Reviews> = arrayListOf()
 
     private val firebaseDatabase: FirebaseDatabase = FirebaseDatabase.getInstance()
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
@@ -41,6 +40,16 @@ class AddReviewActivity : BaseActivity() {
 
         addReviewBinding.btnAddReviewSave.setOnClickListener {
             saveReview()
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                finish()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 
@@ -69,7 +78,7 @@ class AddReviewActivity : BaseActivity() {
     }
 
     private fun calculateAverageRating(newRating: Float): Float {
-
+        val reviewsList = ArrayList<Reviews>()
         val ratingsList = ArrayList<Float>()
         var sum = 0F
         for (review in barber.reviews){
@@ -86,6 +95,7 @@ class AddReviewActivity : BaseActivity() {
         return sum / ratingsList.size
     }
 
+
     private fun saveReview(){
 
         val barberReviewsRef: DatabaseReference = firebaseDatabase.getReference("Barbers").child(barber.id).child("reviews")
@@ -96,10 +106,9 @@ class AddReviewActivity : BaseActivity() {
         val comment = addReviewBinding.etAddReviewComment.text.toString()
 
         val review = Reviews(userId,rating,comment)
+        val ratingAverage = calculateAverageRating(rating)
 
             barberReviewsRef.child(userId).setValue(review).addOnSuccessListener {
-
-                val ratingAverage = calculateAverageRating(addReviewBinding.rbAddReviewBarberRating.rating)
 
                 barberRatingRef.setValue(ratingAverage).addOnFailureListener {e ->
 
@@ -118,13 +127,4 @@ class AddReviewActivity : BaseActivity() {
             }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            android.R.id.home -> {
-                finish()
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
 }

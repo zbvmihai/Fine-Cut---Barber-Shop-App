@@ -4,7 +4,7 @@ import android.os.Parcel
 import android.os.Parcelable
 
 data class Offers(
-    val name: String = "",
+    val date: String = "",
     val description: String = "",
     val code: String = "",
     val deduction: Int = 0
@@ -17,7 +17,7 @@ data class Offers(
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(name)
+        parcel.writeString(date)
         parcel.writeString(description)
         parcel.writeString(code)
         parcel.writeInt(deduction)

@@ -21,10 +21,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import com.finecut.barbershop.R
-import com.finecut.barbershop.activities.LogInActivity
-import com.finecut.barbershop.activities.MainActivity
-import com.finecut.barbershop.activities.MyBookingsActivity
-import com.finecut.barbershop.activities.MyProfileActivity
+import com.finecut.barbershop.activities.*
 import com.finecut.barbershop.models.Users
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseError
@@ -255,7 +252,18 @@ open class BaseActivity : AppCompatActivity() {
         }
 
         btnOffers.setOnClickListener {
-            Toast.makeText(applicationContext, "Offers clicked", Toast.LENGTH_SHORT).show()
+            if (this::class.java == OffersActivity::class.java) {
+                Toast.makeText(applicationContext,"You are already in Offers",Toast.LENGTH_SHORT).show()
+            }else{
+                startActivity(Intent(this, OffersActivity::class.java))
+                animClose.start()
+                isDrawerOpen = false
+                overlayView.visibility = View.GONE
+                onBackPressedCallback.isEnabled = false
+                if (this::class.java != MainActivity::class.java) {
+                    finish()
+                }
+            }
         }
 
         btnRateUs.setOnClickListener {
