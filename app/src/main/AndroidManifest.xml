@@ -17,6 +17,13 @@
         android:theme="@style/Theme.BarberShop"
         tools:targetApi="31">
         <activity
+            android:name=".activities.AddReviewActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".activities.MyBookingsActivity"
             android:exported="false">
             <meta-data

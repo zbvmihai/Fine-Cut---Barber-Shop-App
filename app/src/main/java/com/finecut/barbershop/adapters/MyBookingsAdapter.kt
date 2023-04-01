@@ -2,12 +2,14 @@ package com.finecut.barbershop.adapters
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.finecut.barbershop.R
+import com.finecut.barbershop.activities.AddReviewActivity
 import com.finecut.barbershop.databinding.BookingsCardBinding
 import com.finecut.barbershop.models.Barbers
 import com.finecut.barbershop.models.Bookings
@@ -49,6 +51,12 @@ class MyBookingsAdapter(private var context: Context,
 
                 Picasso.get().load(barber.image.ifEmpty { context.getString(R.string.userImagePlaceHolder)}).into(holder.adapterBookings.ivBarberImage)
 
+                holder.adapterBookings.llBookingsCard.setOnClickListener {
+
+                    val intent = Intent(context,AddReviewActivity::class.java)
+                    intent.putExtra("barber",barber)
+                    context.startActivity(intent)
+                }
             }
 
             override fun onFailure(error: DatabaseError) {

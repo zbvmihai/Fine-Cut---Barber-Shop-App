@@ -68,6 +68,8 @@
     <string name="service_name">Service Name</string>
     <string name="amount_paid">Amount Paid:</string>
     <string name="click_a_booking_to_leave_a_review">Click a booking to leave a review!</string>
+    <string name="write_a_comment">Write a comment</string>
+    <string name="rate_barber">Rate Barber</string>
 
 
 </resources>
