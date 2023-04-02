@@ -15,3 +15,7 @@
 local.properties
 
 .idea/deploymentTargetDropDown.xml
+
+gradle.properties
+
+apikey.properties

@@ -2,10 +2,12 @@ package com.finecut.barbershop.utils
 
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.Rect
+import android.net.Uri
 import android.util.Log
 import android.util.TypedValue
 import android.view.Gravity
@@ -20,9 +22,13 @@ import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import com.finecut.barbershop.BuildConfig
 import com.finecut.barbershop.R
 import com.finecut.barbershop.activities.*
 import com.finecut.barbershop.models.Users
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.api.net.FetchPlaceRequest
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseError
 import com.squareup.picasso.Callback
@@ -267,11 +273,50 @@ open class BaseActivity : AppCompatActivity() {
         }
 
         btnRateUs.setOnClickListener {
-            Toast.makeText(applicationContext, "Rate Us clicked", Toast.LENGTH_SHORT).show()
+
+            val apiKey = BuildConfig.PLACES_API_KEY
+            if (!Places.isInitialized()) {
+                Places.initialize(applicationContext, apiKey)
+            }
+
+            val placesClient = Places.createClient(this)
+
+            val placeFields = listOf(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG)
+
+            val placeId = "ChIJzdK8Dz8bdkgRj698y3CmyZo"
+            val request = FetchPlaceRequest.newInstance(placeId, placeFields)
+
+            placesClient.fetchPlace(request)
+                .addOnSuccessListener { response ->
+                    val place = response.place
+                    val location = place.latLng
+                    if (location != null) {
+                        val gmmIntentUri = Uri.parse("https://www.google.com/maps/search/?api=1&query=${location.latitude},${location.longitude}&query_place_id=$placeId")
+
+                        val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+                        mapIntent.setPackage("com.google.android.apps.maps")
+                        startActivity(mapIntent)
+                    } else {
+                        Log.e("Place Error:", "Place not found: LatLng is null")
+                    }
+                }.addOnFailureListener { exception ->
+                    Log.e("Place Error:", "Place not found: ${exception.message}")
+                }
         }
 
         btnRateApp.setOnClickListener {
-            Toast.makeText(applicationContext, "Rate App clicked", Toast.LENGTH_SHORT).show()
+
+            val packageName = applicationContext.packageName
+            val uri = Uri.parse("market://details?id=$packageName")
+            val goToMarketIntent = Intent(Intent.ACTION_VIEW, uri)
+
+            try {
+                startActivity(goToMarketIntent)
+            } catch (e: ActivityNotFoundException) {
+                val webUri = Uri.parse("https://play.google.com/store/apps/details?id=$packageName")
+                val browserIntent = Intent(Intent.ACTION_VIEW, webUri)
+                startActivity(browserIntent)
+            }
         }
 
         btnLogOut.setOnClickListener {

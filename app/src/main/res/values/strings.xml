@@ -73,6 +73,6 @@
     <string name="available_until">Available Until:</string>
     <string name="offer_code">Offer Code</string>
     <string name="review_description">Offer Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
-
+    <string name="google_maps_review_url">https://maps.google.com/maps?cid=ChIJzdK8Dz8bdkgRj698y3CmyZo&amp;daddr=ChIJzdK8Dz8bdkgRj698y3CmyZo&amp;action=review</string>
 
 </resources>
