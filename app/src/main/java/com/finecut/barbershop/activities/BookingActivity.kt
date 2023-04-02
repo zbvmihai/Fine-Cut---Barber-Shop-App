@@ -209,6 +209,7 @@ class BookingActivity : BaseActivity() {
             Toast.makeText(this, "Discount applied: ${selectedOffer.code}", Toast.LENGTH_SHORT).show()
         } else {
             Toast.makeText(this, "Invalid discount code. Please try again.", Toast.LENGTH_SHORT).show()
+            bookingBinding.etDiscountCode.setText("")
         }
     }
 
