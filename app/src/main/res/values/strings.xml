@@ -75,5 +75,6 @@
     <string name="review_description">Offer Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
     <string name="google_maps_review_url">https://maps.google.com/maps?cid=ChIJzdK8Dz8bdkgRj698y3CmyZo&amp;daddr=ChIJzdK8Dz8bdkgRj698y3CmyZo&amp;action=review</string>
     <string name="cancel">Cancel</string>
+    <string name="use_loyalty_points">Use Loyalty Points</string>
 
 </resources>
