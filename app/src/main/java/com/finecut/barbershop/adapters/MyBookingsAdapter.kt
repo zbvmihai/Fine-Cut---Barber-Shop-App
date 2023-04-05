@@ -31,7 +31,6 @@ class MyBookingsAdapter(private var context: Context,
     }
 
     override fun onBindViewHolder(holder: BookingsViewHolder, position: Int) {
-        Log.d("BookingsAdapter", "Binding view holder at position: $position")
 
         FirebaseData.DBHelper.getBarberFromDatabase(bookingsList[holder.adapterPosition].barberId, object: FirebaseData.DBHelper.BarberCallback{
             @SuppressLint("SetTextI18n")
@@ -61,18 +60,21 @@ class MyBookingsAdapter(private var context: Context,
                     2 -> {holder.adapterBookings.tvBookingStatus.text = "Completed"
                         holder.adapterBookings.tvBookingStatus.setTextColor(ContextCompat.getColor(context, R.color.salmon_pink))
                     }
-
-
                 }
 
                 Picasso.get().load(barber.image.ifEmpty { context.getString(R.string.userImagePlaceHolder)}).into(holder.adapterBookings.ivBarberImage)
 
-                holder.adapterBookings.llBookingsCard.setOnClickListener {
+                if(bookingsList[holder.adapterPosition].bookStatus == 2){
 
-                    val intent = Intent(context,AddReviewActivity::class.java)
-                    intent.putExtra("barber",barber)
-                    context.startActivity(intent)
+                    holder.adapterBookings.llBookingsCard.setOnClickListener {
+
+                        val intent = Intent(context,AddReviewActivity::class.java)
+                        intent.putExtra("barber",barber)
+                        context.startActivity(intent)
+                    }
                 }
+
+
             }
 
             override fun onFailure(error: DatabaseError) {
