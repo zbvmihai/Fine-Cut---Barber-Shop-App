@@ -17,6 +17,23 @@
         android:layout_height="match_parent"
         android:padding="4dp">
 
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnCancelBooking"
+            android:layout_width="50dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="5dp"
+            android:background="@drawable/button3_selector"
+            android:fontFamily="@font/poppins_bold"
+            android:gravity="center"
+            android:padding="3dp"
+            android:text="@string/cancel"
+            android:textAllCaps="false"
+            android:textColor="@color/rich_black"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toTopOf="@+id/tvBookingStatus"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:ignore="TouchTargetSizeCheck" />
+
         <ProgressBar
             android:id="@+id/pbBookingCard"
             android:layout_width="150dp"

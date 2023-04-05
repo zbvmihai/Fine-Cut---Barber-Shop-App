@@ -83,7 +83,7 @@
             android:fontFamily="@font/poppins_medium"
             android:text="@string/click_a_booking_to_leave_a_review"
             android:textColor="@color/naples_yellow"
-            android:textSize="18sp"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvMyBookingsUserName" />

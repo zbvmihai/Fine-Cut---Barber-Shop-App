@@ -67,12 +67,13 @@
     <string name="date_time">Date/Time</string>
     <string name="service_name">Service Name</string>
     <string name="amount_paid">Amount Paid:</string>
-    <string name="click_a_booking_to_leave_a_review">Click a booking to leave a review!</string>
+    <string name="click_a_booking_to_leave_a_review">Click a completed booking to leave a review!</string>
     <string name="write_a_comment">Write a comment</string>
     <string name="rate_barber">Rate Barber</string>
     <string name="available_until">Available Until:</string>
     <string name="offer_code">Offer Code</string>
     <string name="review_description">Offer Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
     <string name="google_maps_review_url">https://maps.google.com/maps?cid=ChIJzdK8Dz8bdkgRj698y3CmyZo&amp;daddr=ChIJzdK8Dz8bdkgRj698y3CmyZo&amp;action=review</string>
+    <string name="cancel">Cancel</string>
 
 </resources>
