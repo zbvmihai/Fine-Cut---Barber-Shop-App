@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.finecut.barbershop.R
 import com.finecut.barbershop.activities.AddReviewActivity
@@ -48,6 +49,21 @@ class MyBookingsAdapter(private var context: Context,
                 holder.adapterBookings.tvMyBookingsAmountPaid.text = bookingsList[holder.adapterPosition].totalPaid
 
                 holder.adapterBookings.tvMyBookingsBarberName.text = barber.name
+
+                when(bookingsList[holder.adapterPosition].bookStatus){
+
+                    0 -> {holder.adapterBookings.tvBookingStatus.text = "Booked"}
+                    1 -> {
+                        holder.adapterBookings.tvBookingStatus.text = "Confirmed"
+                        holder.adapterBookings.tvBookingStatus.setTextColor(ContextCompat.getColor(context, R.color.green))
+
+                    }
+                    2 -> {holder.adapterBookings.tvBookingStatus.text = "Completed"
+                        holder.adapterBookings.tvBookingStatus.setTextColor(ContextCompat.getColor(context, R.color.salmon_pink))
+                    }
+
+
+                }
 
                 Picasso.get().load(barber.image.ifEmpty { context.getString(R.string.userImagePlaceHolder)}).into(holder.adapterBookings.ivBarberImage)
 

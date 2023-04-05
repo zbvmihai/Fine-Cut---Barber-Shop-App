@@ -220,7 +220,7 @@ class BookingActivity : BaseActivity() {
         val date = bookingBinding.etBookingPickDate.text.toString()
         val timeslot = bookingBinding.spinnerTimeSlot.selectedItem.toString()
         val service = bookingBinding.spinnerService.selectedItem.toString()
-        val bookStatus = 1
+        val bookStatus = 0
         val discountCode = bookingBinding.etDiscountCode.text.toString().trim()
         val offer = discountCode.ifEmpty { "" }
         val totalPaid = bookingBinding.etTotalPrice.text.toString()

@@ -81,15 +81,16 @@
             android:id="@+id/tvMyBookingsServiceName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
             android:fontFamily="@font/poppins_medium"
             android:text="@string/service_name"
             android:textColor="@color/rich_black"
             android:textSize="20sp"
+            android:visibility="invisible"
             app:layout_constraintStart_toStartOf="@+id/ivBarberImage"
             app:layout_constraintTop_toBottomOf="@+id/ivBarberImage"
             tools:ignore="TextContrastCheck"
-            android:visibility="invisible"
-            tools:visibility="visible"/>
+            tools:visibility="visible" />
 
         <TextView
             android:id="@+id/tvMyBookingsAmountPaid"
@@ -104,6 +105,19 @@
             tools:ignore="TextContrastCheck"
             android:visibility="invisible"
             tools:visibility="visible"/>
+
+        <TextView
+            android:id="@+id/tvBookingStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:fontFamily="@font/poppins_medium"
+            android:text="Status"
+            android:textColor="@color/rich_black"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
