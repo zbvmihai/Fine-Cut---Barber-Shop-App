@@ -22,7 +22,6 @@ class LogInActivity : AppCompatActivity() {
         val view = logInBinding.root
         setContentView(view)
 
-
         logInBinding.tvBtnRegister.setOnClickListener {
             startActivity(Intent(this, SignUpActivity::class.java))
         }

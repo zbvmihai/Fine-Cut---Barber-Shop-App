@@ -46,6 +46,7 @@ android {
 
 dependencies {
 
+    implementation 'com.google.firebase:firebase-messaging:23.1.2'
     implementation 'com.google.android.libraries.places:places:3.0.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4'
