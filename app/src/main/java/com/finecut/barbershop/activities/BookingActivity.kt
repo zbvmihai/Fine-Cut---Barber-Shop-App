@@ -3,6 +3,9 @@
 package com.finecut.barbershop.activities
 
 import android.annotation.SuppressLint
+import android.app.AlarmManager
+import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -18,7 +21,9 @@ import com.finecut.barbershop.models.Bookings
 import com.finecut.barbershop.models.Offers
 import com.finecut.barbershop.models.Users
 import com.finecut.barbershop.utils.BaseActivity
+import com.finecut.barbershop.utils.BookingReminderBroadcast
 import com.finecut.barbershop.utils.FirebaseData
+import com.finecut.barbershop.utils.FollowUpReminderBroadcast
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseError
@@ -93,8 +98,6 @@ class BookingActivity : BaseActivity() {
                 Toast.makeText(this, "You have already used your points!", Toast.LENGTH_LONG).show()
             }
         }
-
-
 
         bookingBinding.btnBook.setOnClickListener {
             saveBooking(usedPoints)
@@ -259,6 +262,9 @@ class BookingActivity : BaseActivity() {
         // Save booking under Users
         FirebaseData.DBHelper.usersRef.child(userId).child("Bookings").child("$date-$formattedTimeslot").setValue(booking)
             .addOnSuccessListener {
+
+                scheduleBookingReminder(date, timeslot, userId)
+                scheduleFollowUpReminder(date, timeslot, userId)
                 // Save booking under Barbers
                 FirebaseData.DBHelper.barbersRef.child(barberId).child("Bookings").child("$date-$formattedTimeslot").setValue(booking)
                     .addOnSuccessListener {
@@ -332,4 +338,66 @@ class BookingActivity : BaseActivity() {
             else -> super.onOptionsItemSelected(item)
         }
     }
+
+    @SuppressLint("InlinedApi")
+    private fun scheduleBookingReminder(date: String, timeslot: String, userId: String) {
+        val dateFormat = SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.getDefault())
+        val appointmentDateTime = dateFormat.parse("$date $timeslot")
+
+        if (appointmentDateTime != null) {
+            val reminderDateTime = Calendar.getInstance().apply {
+                time = appointmentDateTime
+
+                add(Calendar.HOUR_OF_DAY, -1)
+            }
+
+            val intent = Intent(this, BookingReminderBroadcast::class.java).apply {
+                putExtra("title", "Appointment Reminder")
+                putExtra("message", "Your appointment is in 1 hour!")
+            }
+
+            val requestCode = userId.hashCode()
+            val pendingIntent = PendingIntent.getBroadcast(
+                this, requestCode, intent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            )
+
+
+            val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, reminderDateTime.timeInMillis, pendingIntent)
+        } else {
+            Log.e("Error", "Failed to parse date and time for the reminder.")
+        }
+    }
+
+    @SuppressLint("InlinedApi")
+    private fun scheduleFollowUpReminder(date: String, timeslot: String, userId: String) {
+        val dateFormat = SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.getDefault())
+        val appointmentDateTime = dateFormat.parse("$date $timeslot")
+
+        if (appointmentDateTime != null) {
+            val followUpDateTime = Calendar.getInstance().apply {
+                time = appointmentDateTime
+
+                add(Calendar.WEEK_OF_YEAR, 2)
+            }
+
+            val intent = Intent(this, FollowUpReminderBroadcast::class.java).apply {
+                putExtra("title", "We Miss You!")
+                putExtra("message", "It's been 2 weeks since your last appointment. Would you like to schedule a new one?")
+            }
+
+            val requestCode = (userId + "follow_up").hashCode()
+            val pendingIntent = PendingIntent.getBroadcast(
+                this, requestCode, intent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            )
+
+            val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, followUpDateTime.timeInMillis, pendingIntent)
+        } else {
+            Log.e("Error", "Failed to parse date and time for the follow-up reminder.")
+        }
+    }
+
 }
