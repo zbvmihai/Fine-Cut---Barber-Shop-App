@@ -84,29 +84,42 @@ class MainActivity : BaseActivity() {
         })
     }
 
-    private fun setUpNotification() {
-        val channelId = "default_channel"
-        val channelName = "Default Channel"
+    private fun setUpNotificationChannels() {
+        val channelIdBookingStatus = "booking_status_channel"
+        val channelNameBookingStatus = "Booking Status Channel"
+        val channelIdReminders = "reminders_channel"
+        val channelNameReminders = "Reminders Channel"
+        val channelIdOffers = "offers_channel"
+        val channelNameOffers = "Offers Channel"
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val importance = NotificationManager.IMPORTANCE_DEFAULT
-            val channel = NotificationChannel(channelId, channelName, importance)
+
+            val channelBookingStatus = NotificationChannel(channelIdBookingStatus, channelNameBookingStatus, importance)
+            val channelReminders = NotificationChannel(channelIdReminders, channelNameReminders, importance)
+            val channelOffers = NotificationChannel(channelIdOffers, channelNameOffers, importance)
+
             val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.createNotificationChannel(channel)
+            notificationManager.createNotificationChannel(channelBookingStatus)
+            notificationManager.createNotificationChannel(channelReminders)
+            notificationManager.createNotificationChannel(channelOffers)
         }
 
         // Subscribe to a topic (optional)
         FirebaseMessaging.getInstance().subscribeToTopic("general")
     }
 
+
+
     private fun requestNotificationPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.POST_NOTIFICATIONS), 1)
             } else {
-                setUpNotification()
+                setUpNotificationChannels()
             }
         } else {
-            setUpNotification()
+            setUpNotificationChannels()
         }
     }
 
@@ -114,7 +127,7 @@ class MainActivity : BaseActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == 1) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                setUpNotification()
+                setUpNotificationChannels()
             } else {
                 Toast.makeText(applicationContext, "Permission denied. Notifications won't be enabled.", Toast.LENGTH_SHORT).show()
             }

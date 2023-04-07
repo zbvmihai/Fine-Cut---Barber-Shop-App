@@ -12,7 +12,7 @@ import com.finecut.barbershop.R
 
 class BookingReminderBroadcast : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
-        val channelId = "booking_reminder_channel"
+        val channelId = "reminders_channel"
         val title = intent.getStringExtra("title") ?: "Appointment Reminder"
         val message = intent.getStringExtra("message") ?: "Your appointment is in 1 hour!"
 

@@ -11,7 +11,7 @@ import com.finecut.barbershop.R
 class FollowUpReminderBroadcast : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
-        val channelId = "follow_up_reminder_channel"
+        val channelId = "reminders_channel"
         val notificationId = 1002 // Unique integer for the follow-up notification
 
         val title = intent.getStringExtra("title") ?: "We Miss You!"
