@@ -53,7 +53,7 @@
             android:padding="1dp"
             android:text="@string/barber_name"
             android:textColor="@color/rich_black"
-            android:textSize="20sp"
+            android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/ivBarberImage"
             app:layout_constraintTop_toTopOf="parent" />

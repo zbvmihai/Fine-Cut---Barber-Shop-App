@@ -9,7 +9,7 @@ data class Users(
     val surname: String = "",
     val email: String = "",
     val phoneNumber: String = "",
-    val isClient: Int = 1,
+    val client: Int = 1,
     val image: String = "",
     val bookings: List<Bookings> = emptyList(),
     val points: Long = 0
@@ -32,7 +32,7 @@ data class Users(
         parcel.writeString(surname)
         parcel.writeString(email)
         parcel.writeString(phoneNumber)
-        parcel.writeInt(isClient)
+        parcel.writeInt(client)
         parcel.writeString(image)
         parcel.writeTypedList(bookings)
         parcel.writeLong(points)

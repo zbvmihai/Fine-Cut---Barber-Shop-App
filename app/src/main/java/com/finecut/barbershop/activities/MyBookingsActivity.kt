@@ -17,6 +17,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseError
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
+import java.text.SimpleDateFormat
+import java.util.*
 
 class MyBookingsActivity : BaseActivity() {
 
@@ -64,7 +66,19 @@ class MyBookingsActivity : BaseActivity() {
         FirebaseData.DBHelper.getBookingsFromDatabase(currentUserId, object : FirebaseData.DBHelper.BookingsCallback{
             @SuppressLint("NotifyDataSetChanged")
             override fun onSuccess(bookingsList: ArrayList<Bookings>) {
-                Log.d("BookingsListSize", "Size: ${bookingsList.size}")
+
+                bookingsList.sortWith { booking1, booking2 ->
+                    val dateTimeFormatter = SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.getDefault())
+
+                    val dateTime1 = dateTimeFormatter.parse("${booking1.date} ${booking1.timeslot}")
+                    val dateTime2 = dateTimeFormatter.parse("${booking2.date} ${booking2.timeslot}")
+
+                    when {
+                        dateTime1 == null -> 1
+                        dateTime2 == null -> -1
+                        else -> dateTime2.compareTo(dateTime1)
+                    }
+                }
 
                 bookingsAdapter = MyBookingsAdapter(this@MyBookingsActivity,bookingsList)
                 myBookingsBinding.rvMyBookings.layoutManager = LinearLayoutManager(this@MyBookingsActivity)

@@ -26,7 +26,7 @@ class FirebaseData {
                     val surname = snapshot.child("surname").getValue(String::class.java) ?: ""
                     val email = snapshot.child("email").getValue(String::class.java) ?: ""
                     val phoneNumber = snapshot.child("phoneNumber").getValue(String::class.java) ?: ""
-                    val isClient = snapshot.child("isClient").getValue(Int::class.java) ?: 1
+                    val isClient = snapshot.child("client").getValue(Int::class.java) ?: 1
                     val image = snapshot.child("image").getValue(String::class.java) ?: ""
                     val bookings = snapshot.child("bookings").children.mapNotNull { it.getValue(Bookings::class.java) }
                     val points = snapshot.child("points").getValue(Long::class.java) ?: 0
@@ -74,9 +74,7 @@ class FirebaseData {
                 }
             })
         }
-
-
-
+        
         interface BarbersCallback {
             fun onSuccess(barbersList: ArrayList<Barbers>)
             fun onFailure(error: DatabaseError)

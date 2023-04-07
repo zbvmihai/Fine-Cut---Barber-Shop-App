@@ -148,7 +148,6 @@ class EditDetailsActivity : BaseActivity() {
             }
         }
 
-
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

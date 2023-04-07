@@ -35,6 +35,10 @@ class BookingActivity : BaseActivity() {
     private var timeSlotsList: List<String> = emptyList()
     private var offersList : List<Offers> = emptyList()
 
+    private var userPoints: Long = 0
+    private var usedPoints: Long = 0
+    private var pointsUsed: Boolean = false
+
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
 
     private lateinit var bookingBinding: ActivityBookingBinding
@@ -48,6 +52,7 @@ class BookingActivity : BaseActivity() {
         setupActionAndSideMenuBar(this,bookingBinding.tbBooking,true,view)
         loadOffers()
         getAndSetData()
+        getUserPoints()
 
         bookingBinding.btnSeeReviews.setOnClickListener {
             val intent = Intent(this@BookingActivity,ReviewsActivity::class.java)
@@ -69,9 +74,30 @@ class BookingActivity : BaseActivity() {
             }
         }
 
-        bookingBinding.btnBook.setOnClickListener {
-            saveBooking()
+        bookingBinding.btnUsePoints.setOnClickListener {
+            if (!pointsUsed) {
+                if (userPoints >= 10) {
+                    val discount = calculatePointsDiscount(userPoints)
+                    val originalPrice = bookingBinding.etTotalPrice.text.toString().replace("£", "").toDouble()
+                    val newPrice = originalPrice - discount
+                    bookingBinding.etTotalPrice.text = String.format("%.2f£", newPrice)
+                    usedPoints = (discount * 10).toLong()
+                    Toast.makeText(this, "$usedPoints points used! You now have ${userPoints - usedPoints} points!", Toast.LENGTH_LONG).show()
 
+                    pointsUsed = true // Mark points as used
+                    bookingBinding.btnUsePoints.isEnabled = false // Disable the button
+                } else {
+                    Toast.makeText(this, "You don't have enough points! Points: $userPoints", Toast.LENGTH_LONG).show()
+                }
+            } else {
+                Toast.makeText(this, "You have already used your points!", Toast.LENGTH_LONG).show()
+            }
+        }
+
+
+
+        bookingBinding.btnBook.setOnClickListener {
+            saveBooking(usedPoints)
         }
     }
 
@@ -209,24 +235,26 @@ class BookingActivity : BaseActivity() {
             Toast.makeText(this, "Discount applied: ${selectedOffer.code}", Toast.LENGTH_SHORT).show()
         } else {
             Toast.makeText(this, "Invalid discount code. Please try again.", Toast.LENGTH_SHORT).show()
+            bookingBinding.etDiscountCode.setText("")
         }
     }
 
-    private fun saveBooking() {
+    private fun saveBooking(usedPoints: Long = 0) {
 
         val userId = auth.currentUser?.uid ?: ""
         val barberId = barber.id
         val date = bookingBinding.etBookingPickDate.text.toString()
         val timeslot = bookingBinding.spinnerTimeSlot.selectedItem.toString()
         val service = bookingBinding.spinnerService.selectedItem.toString()
-        val bookStatus = 1
+        val bookStatus = 0
         val discountCode = bookingBinding.etDiscountCode.text.toString().trim()
         val offer = discountCode.ifEmpty { "" }
         val totalPaid = bookingBinding.etTotalPrice.text.toString()
 
         val formattedTimeslot = timeslot.replace(":", "-")
+        val pointsUsed = if (usedPoints > 0) "$offer,Points: $usedPoints" else offer
 
-        val booking = Bookings(userId, barberId, date, timeslot, service, bookStatus, offer,totalPaid)
+        val booking = Bookings(userId, barberId, date, timeslot, service, bookStatus, pointsUsed, totalPaid)
 
         // Save booking under Users
         FirebaseData.DBHelper.usersRef.child(userId).child("Bookings").child("$date-$formattedTimeslot").setValue(booking)
@@ -238,7 +266,8 @@ class BookingActivity : BaseActivity() {
                         finish()
 
                         val totalPrice = bookingBinding.etTotalPrice.text.toString().replace("£", "").toDouble()
-                        addPointsToUser(booking.userId, totalPrice)
+
+                        addPointsToUser(booking.userId, totalPrice,usedPoints)
                     }
                     .addOnFailureListener { e ->
                         Toast.makeText(this@BookingActivity, "Failed to save booking!", Toast.LENGTH_SHORT).show()
@@ -251,13 +280,13 @@ class BookingActivity : BaseActivity() {
             }
     }
 
-    private fun addPointsToUser(userId: String, totalPrice: Double) {
+    private fun addPointsToUser(userId: String, totalPrice: Double,usedPoints: Long = 0) {
         val pointsToAdd = (totalPrice * 0.10).roundToInt()
 
         FirebaseData.DBHelper.getCurrentUserFromDatabase(userId, object : FirebaseData.DBHelper.CurrentUserCallback {
             override fun onSuccess(currentUser: Users) {
                 val currentPoints = currentUser.points
-                val newPoints = currentPoints + pointsToAdd
+                val newPoints = currentPoints + pointsToAdd - usedPoints
 
                 // Update the user's points
                 FirebaseData.DBHelper.usersRef.child(userId).child("points").setValue(newPoints)
@@ -274,6 +303,24 @@ class BookingActivity : BaseActivity() {
                 Log.e("UserNotFound", "User not found with ID: $userId, $error")
             }
         })
+    }
+
+    private fun getUserPoints() {
+        val userId = auth.currentUser?.uid ?: ""
+        FirebaseData.DBHelper.getCurrentUserFromDatabase(userId, object : FirebaseData.DBHelper.CurrentUserCallback {
+            override fun onSuccess(currentUser: Users) {
+                userPoints = currentUser.points
+
+            }
+            override fun onFailure(error: DatabaseError) {
+                Log.e("DatabaseError", error.toString())
+            }
+        })
+    }
+
+    private fun calculatePointsDiscount(points: Long): Double {
+        val pointsToUse = (points / 10) * 10
+        return pointsToUse.toDouble() / 10
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

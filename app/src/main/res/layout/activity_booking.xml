@@ -29,7 +29,7 @@
                 android:fontFamily="@font/poppins_bold"
                 android:text="@string/barber_name"
                 android:textColor="@color/rich_black"
-                android:textSize="30sp" />
+                android:textSize="20sp" />
 
         </androidx.appcompat.widget.Toolbar>
 
@@ -96,7 +96,7 @@
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnApplyDiscount"
             android:layout_width="145dp"
-            android:layout_height="25dp"
+            android:layout_height="30dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/button2_selector"
             android:fontFamily="@font/poppins_bold"
@@ -104,10 +104,28 @@
             android:text="@string/apply_discount"
             android:textAllCaps="false"
             android:textColor="@color/rich_black"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.492"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toStartOf="@+id/btnUsePoints"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etDiscountCode"
+            tools:ignore="TouchTargetSizeCheck" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnUsePoints"
+            android:layout_width="145dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/button2_selector"
+            android:fontFamily="@font/poppins_bold"
+            android:gravity="center"
+            android:text="@string/use_loyalty_points"
+            android:textAllCaps="false"
+            android:textColor="@color/rich_black"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/btnApplyDiscount"
             app:layout_constraintTop_toBottomOf="@+id/etDiscountCode"
             tools:ignore="TouchTargetSizeCheck" />
 
@@ -212,7 +230,7 @@
             android:layout_height="35dp"
             android:layout_marginTop="20dp"
             android:autofillHints=""
-            android:background="@drawable/edit_text_background3"
+            android:background="@drawable/edit_text_background"
             android:ems="10"
             android:fontFamily="@font/poppins"
             android:gravity="center|start"
