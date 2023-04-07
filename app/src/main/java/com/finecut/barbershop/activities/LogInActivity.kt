@@ -1,5 +1,6 @@
 package com.finecut.barbershop.activities
 
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
@@ -8,6 +9,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.finecut.barbershop.databinding.ActivityLogInBinding
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.messaging.FirebaseMessaging
 
 class LogInActivity : AppCompatActivity() {
 
@@ -21,7 +24,6 @@ class LogInActivity : AppCompatActivity() {
         logInBinding = ActivityLogInBinding.inflate(layoutInflater)
         val view = logInBinding.root
         setContentView(view)
-
 
         logInBinding.tvBtnRegister.setOnClickListener {
             startActivity(Intent(this, SignUpActivity::class.java))
@@ -60,6 +62,15 @@ class LogInActivity : AppCompatActivity() {
 
             if (task.isSuccessful) {
                 Toast.makeText(applicationContext, "User Signed In!", Toast.LENGTH_SHORT).show()
+
+                FirebaseMessaging.getInstance().token.addOnCompleteListener { tokenTask ->
+                    if (tokenTask.isSuccessful) {
+                        val token = tokenTask.result
+                        updateFcmToken(token)
+                    } else {
+                        Log.e(TAG, "Error getting FCM token", task.exception)
+                    }
+                }
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
                 finish()
@@ -71,6 +82,23 @@ class LogInActivity : AppCompatActivity() {
                 ).show()
                 Log.e("Error:", task.exception.toString())
             }
+        }
+    }
+
+    private fun updateFcmToken(token: String) {
+        // Get the user ID of the currently signed-in user.
+        val userId = FirebaseAuth.getInstance().currentUser?.uid
+
+        if (userId != null) {
+            // Update the FCM token in the user's database node.
+            val database = FirebaseDatabase.getInstance().reference
+            database.child("Users").child(userId).child("fcmToken").setValue(token)
+                .addOnSuccessListener {
+                    Log.d(TAG, "FCM token updated for user $userId")
+                }
+                .addOnFailureListener {
+                    Log.e(TAG, "Error updating FCM token for user $userId", it)
+                }
         }
     }
 
