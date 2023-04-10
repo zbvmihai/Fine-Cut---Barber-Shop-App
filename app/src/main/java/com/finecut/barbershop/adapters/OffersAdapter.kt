@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.finecut.barbershop.databinding.OffersCardBinding
 import com.finecut.barbershop.models.Offers
 
+// This offers adapter class take a list of offers and populate the views of the offers card
+// in the recycler view of the Offers activity.
 class OffersAdapter(private var context: Context,
                     var offersList: ArrayList<Offers>)
     : RecyclerView.Adapter<OffersAdapter.ReviewsViewHolder>() {

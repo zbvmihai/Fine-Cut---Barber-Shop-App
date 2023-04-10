@@ -22,6 +22,8 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.squareup.picasso.Picasso
 
+// This bookings adapter class take a list of bookings and populate the views of the bookings card
+// in the recycler view of the My Bookings Activity.
 class MyBookingsAdapter(private var context: Context,
     private var bookingsList: ArrayList<Bookings>
     ):RecyclerView.Adapter<MyBookingsAdapter.BookingsViewHolder>() {
@@ -48,6 +50,9 @@ class MyBookingsAdapter(private var context: Context,
             .child(bookingsList[holder.adapterPosition].barberId)
             .child("Bookings").child(bookingDate)
 
+        // This block of code retrieve the selected barber from the database
+        // and populate the views of the booking card.
+        // Depending on the booking status data is displayed accordingly
         FirebaseData.DBHelper.getBarberFromDatabase(bookingsList[holder.adapterPosition].barberId, object: FirebaseData.DBHelper.BarberCallback{
             @SuppressLint("SetTextI18n")
             override fun onSuccess(barber: Barbers) {
@@ -124,8 +129,6 @@ class MyBookingsAdapter(private var context: Context,
                         context.startActivity(intent)
                     }
                 }
-
-
             }
 
             override fun onFailure(error: DatabaseError) {

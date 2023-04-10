@@ -18,20 +18,23 @@ class LogInActivity : AppCompatActivity() {
 
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         logInBinding = ActivityLogInBinding.inflate(layoutInflater)
         val view = logInBinding.root
         setContentView(view)
 
+        // When Register button is clicked, the SignUp activity is opened.
         logInBinding.tvBtnRegister.setOnClickListener {
             startActivity(Intent(this, SignUpActivity::class.java))
         }
+        // When SignUp button is clicked, the SignUp activity is opened.
         logInBinding.tvBtnSignUpNow.setOnClickListener {
             startActivity(Intent(this, SignUpActivity::class.java))
         }
 
+        // When Login button is clicked the entered userEmail and the password are checked
+        // and if they match in the firebase authenticator, the user is signed in the app.
         logInBinding.btnLogIn.setOnClickListener {
 
             val userEmail = logInBinding.etLoginEmail.text.toString()
@@ -43,6 +46,9 @@ class LogInActivity : AppCompatActivity() {
         }
     }
 
+    // This overridden function check if the user is already signed in when the app opens,
+    // if the user is signed in it will be redirected to Main Activity,
+    // if is not, it will be redirected to the Sign In activity.
     override fun onStart() {
         super.onStart()
 
@@ -56,6 +62,8 @@ class LogInActivity : AppCompatActivity() {
         }
     }
 
+    // This function check the user email and password and if they are correct,
+    // the user will be signed in and will be redirected to the main activity.
     private fun signIn(userEmail: String, userPassword: String) {
 
         auth.signInWithEmailAndPassword(userEmail, userPassword).addOnCompleteListener { task ->
@@ -85,6 +93,7 @@ class LogInActivity : AppCompatActivity() {
         }
     }
 
+    // This function update the FCM token in the user database in case the token changed.
     private fun updateFcmToken(token: String) {
         // Get the user ID of the currently signed-in user.
         val userId = FirebaseAuth.getInstance().currentUser?.uid
@@ -102,6 +111,7 @@ class LogInActivity : AppCompatActivity() {
         }
     }
 
+    // This function check if the user filled the text fields with data.
     private fun validateForm(email: String, password: String): Boolean {
 
         return when {

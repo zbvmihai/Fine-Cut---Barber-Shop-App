@@ -21,7 +21,6 @@ import com.squareup.picasso.Picasso
 class AddReviewActivity : BaseActivity() {
 
     private lateinit var addReviewBinding: ActivityAddReviewBinding
-
     private lateinit var barber: Barbers
 
     private val firebaseDatabase: FirebaseDatabase = FirebaseDatabase.getInstance()
@@ -43,6 +42,8 @@ class AddReviewActivity : BaseActivity() {
         }
     }
 
+        // This overridden function make the back button to finish current activity
+        // and go back to the previous one.
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             android.R.id.home -> {
@@ -53,6 +54,8 @@ class AddReviewActivity : BaseActivity() {
         }
     }
 
+    // This function take the barber object from the previous activity
+    // and set the views in Add Review activity
     @SuppressLint("SetTextI18n")
     private fun getAndSetData(){
 
@@ -77,7 +80,9 @@ class AddReviewActivity : BaseActivity() {
             })
     }
 
+    // This function calculate the average rating of the barber
     private fun calculateAverageRating(newRating: Float): Float {
+
         val reviewsList = ArrayList<Reviews>()
         val ratingsList = ArrayList<Float>()
         var sum = 0F
@@ -96,6 +101,7 @@ class AddReviewActivity : BaseActivity() {
     }
 
 
+    // This function save the review and the rating in the database under barber node
     private fun saveReview(){
 
         val barberReviewsRef: DatabaseReference = firebaseDatabase.getReference("Barbers").child(barber.id).child("reviews")
@@ -108,11 +114,11 @@ class AddReviewActivity : BaseActivity() {
         val review = Reviews(userId,rating,comment)
         val ratingAverage = calculateAverageRating(rating)
 
-            barberReviewsRef.child(userId).setValue(review).addOnSuccessListener {
+        barberReviewsRef.child(userId).setValue(review).addOnSuccessListener {
 
-                barberRatingRef.setValue(ratingAverage).addOnFailureListener {e ->
+            barberRatingRef.setValue(ratingAverage).addOnFailureListener {e ->
 
-                    Toast.makeText(applicationContext, "Failed to save the average rating!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(applicationContext, "Failed to save the average rating!", Toast.LENGTH_SHORT).show()
                     e.localizedMessage?.let { it -> Log.e("DatabaseError: ", it) }
                 }
 
@@ -126,5 +132,4 @@ class AddReviewActivity : BaseActivity() {
                 e.localizedMessage?.let { it -> Log.e("DatabaseError: ", it) }
             }
     }
-
 }

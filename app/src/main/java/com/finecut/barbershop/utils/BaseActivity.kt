@@ -34,13 +34,17 @@ import com.google.firebase.database.DatabaseError
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 
-
+// This open class can be inherited by any activity withing this project.
+// it contains the most important functions of the application,
+// and has the purpose to maintain a clean code architecture.
 open class BaseActivity : AppCompatActivity() {
 
     private lateinit var onBackPressedCallback: OnBackPressedCallback
-
     private lateinit var auth: FirebaseAuth
 
+    // This function will be one of the first functions used in every activity.
+    // This function set up the action bar and the side menu layout
+    // that will be displayed if the hamburger menu button is clicked
     @SuppressLint("ClickableViewAccessibility", "SetTextI18n")
     protected fun setupActionAndSideMenuBar(
         context: Context,
@@ -48,6 +52,7 @@ open class BaseActivity : AppCompatActivity() {
         backButton: Boolean,
         rootView: FrameLayout
     ) {
+        // Next lines of code set up the action bar with the back and hamburger button.
         setSupportActionBar(toolbar)
 
         supportActionBar?.setDisplayShowTitleEnabled(false)
@@ -74,6 +79,10 @@ open class BaseActivity : AppCompatActivity() {
 
         supportActionBar?.setCustomView(hamburgerButton, layoutParams)
 
+        // Next lines of code setup the side menu (drawer menu) to be displayed on 70% of the screen
+        // and under action bar. If the hamburger menu is clicked the menu drawer is displayed with
+        // an animation from right to left. If the hamburger button is clicked again or
+        // the user click next to the menu, will close with an animation from left to right.
         val drawerContainer = FrameLayout(this)
 
         val drawerView =
@@ -195,6 +204,7 @@ open class BaseActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
         val userId = auth.currentUser?.uid!!
 
+        // This block of code update the views in the menu layout with the authenticated user details.
         FirebaseData.DBHelper.getCurrentUserFromDatabase(userId, object :
             FirebaseData.DBHelper.CurrentUserCallback {
             override fun onSuccess(currentUser: Users) {
@@ -231,6 +241,8 @@ open class BaseActivity : AppCompatActivity() {
         val btnRateApp = drawerView.findViewById<Button>(R.id.btnRateApp)
         val btnLogOut = drawerView.findViewById<Button>(R.id.btnLogOut)
 
+        // If My Profile button is clicked, the menu drawer will close,
+        // and the user will be redirected to the My Profile Activity.
         btnMyProfile.setOnClickListener {
             context.startActivity(Intent(context,MyProfileActivity::class.java))
             animClose.start()
@@ -242,6 +254,9 @@ open class BaseActivity : AppCompatActivity() {
             }
         }
 
+        // If My Bookings button is clicked, is checked if the user is already in the
+        // My bookings activity and if is not, the menu drawer will close,
+        // and the user will be redirected to the My Bookings Activity.
         btnMyBookings.setOnClickListener {
             if (this::class.java == MyBookingsActivity::class.java) {
                 Toast.makeText(applicationContext,"You are already in My Bookings",Toast.LENGTH_SHORT).show()
@@ -257,6 +272,8 @@ open class BaseActivity : AppCompatActivity() {
             }
         }
 
+        // If Offers button is clicked, is checked if the user is already in the offers activity and
+        // if is not, the menu drawer will close, and the user will be redirected to the Offers.
         btnOffers.setOnClickListener {
             if (this::class.java == OffersActivity::class.java) {
                 Toast.makeText(applicationContext,"You are already in Offers",Toast.LENGTH_SHORT).show()
@@ -272,8 +289,9 @@ open class BaseActivity : AppCompatActivity() {
             }
         }
 
+    // If the Rate Us button is clicked, google maps with the barber place will be opened in the
+    // google map app or if the user do not have google maps installed it will open in the browser.
         btnRateUs.setOnClickListener {
-
             val apiKey = BuildConfig.PLACES_API_KEY
             if (!Places.isInitialized()) {
                 Places.initialize(applicationContext, apiKey)
@@ -304,6 +322,7 @@ open class BaseActivity : AppCompatActivity() {
                 }
         }
 
+        // If Rate App button is clicked, google play store will open with the application page.
         btnRateApp.setOnClickListener {
 
             val packageName = applicationContext.packageName
@@ -319,10 +338,10 @@ open class BaseActivity : AppCompatActivity() {
             }
         }
 
+        // If the user click Sign Out button, will be signed out and redirected to the Log In Page.
         btnLogOut.setOnClickListener {
 
             auth.signOut()
-
             context.startActivity(Intent(context, LogInActivity::class.java))
             finish()
         }

@@ -16,6 +16,8 @@ import com.google.firebase.database.DatabaseError
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 
+//T his reviews adapter class take a list of reviews and populate the views of the review card
+// in the recycler view of the Reviews activity.
 class ReviewsAdapter(private var context: Context,
 private var reviewsList: ArrayList<Reviews>)
     :RecyclerView.Adapter<ReviewsAdapter.ReviewsViewHolder>(){
@@ -58,7 +60,6 @@ private var reviewsList: ArrayList<Reviews>)
             }
         })
     }
-
 
     override fun getItemCount(): Int {
         return reviewsList.size

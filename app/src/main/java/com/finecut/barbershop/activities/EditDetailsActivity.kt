@@ -39,9 +39,7 @@ class EditDetailsActivity : BaseActivity() {
 
     private val firebaseStorage: FirebaseStorage = FirebaseStorage.getInstance()
     private val storageReference : StorageReference = firebaseStorage.reference
-
     private val database: FirebaseDatabase = FirebaseDatabase.getInstance()
-
 
     private var currentUserId: String? = null
 
@@ -61,6 +59,8 @@ class EditDetailsActivity : BaseActivity() {
 
         registerActivityForResult()
 
+        // This block of code will retrieve the authenticated user details from the database
+        // and fill the views of the Edit Details activity with the user data
         FirebaseData.DBHelper.getCurrentUserFromDatabase(currentUserId!!, object: FirebaseData.DBHelper.CurrentUserCallback{
             @SuppressLint("SetTextI18n")
             override fun onSuccess(currentUser: Users) {
@@ -89,11 +89,14 @@ class EditDetailsActivity : BaseActivity() {
             }
         })
 
+        // When the user image view is clicked the image picker will
+        // and the user will be able to pick an image from the gallery to update the user profile image
         editDetailsBinding.ivEditDetailsUserImage.setOnClickListener{
-
             chooseImage()
         }
 
+        // When the Save button is clicked, all the changed information
+        // will be updated under authenticated user node in database
         editDetailsBinding.btnEditDetailsSave.setOnClickListener {
 
             val firstName = editDetailsBinding.etFirstNameEditDetails.text.toString()
@@ -147,9 +150,9 @@ class EditDetailsActivity : BaseActivity() {
                 }
             }
         }
-
     }
-
+    // This overridden function make the back button to finish current activity
+    // and go back to the previous one.
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             android.R.id.home -> {
@@ -160,6 +163,9 @@ class EditDetailsActivity : BaseActivity() {
         }
     }
 
+    // This function will check if the application have access to the phone storage,
+    // if he don't have access, first will ask the user to grant access, if it has access
+    // it will open the image picker and the user can select a picture from the gallery.
     private fun chooseImage() {
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU){
@@ -171,7 +177,6 @@ class EditDetailsActivity : BaseActivity() {
                 ActivityCompat.requestPermissions(
                     this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 1
                 )
-
             } else {
 
                 val intent = Intent()
@@ -186,11 +191,9 @@ class EditDetailsActivity : BaseActivity() {
                     Manifest.permission.READ_MEDIA_IMAGES
                 ) != PackageManager.PERMISSION_GRANTED
             ) {
-
                 ActivityCompat.requestPermissions(
                     this, arrayOf(Manifest.permission.READ_MEDIA_IMAGES), 2
                 )
-
             } else {
 
                 val intent = Intent()
@@ -201,6 +204,7 @@ class EditDetailsActivity : BaseActivity() {
         }
     }
 
+    // This overridden function check the permission result.
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -225,6 +229,7 @@ class EditDetailsActivity : BaseActivity() {
         }
     }
 
+    // This function populate the image view with the selected image in the image picker.
     private fun registerActivityForResult() {
 
         activityResultLauncher = registerForActivityResult(
@@ -240,12 +245,13 @@ class EditDetailsActivity : BaseActivity() {
                 imageUri?.let {
 
                     Picasso.get().load(it).into(editDetailsBinding.ivEditDetailsUserImage)
-
                 }
             }
         }
     }
 
+    // This function save the image in the cloud storage,
+    // and set the image url value in the authenticated user node of the database
     private fun uploadPhoto(){
 
         val imageReference = storageReference.child("ProfileImages").child(currentUserId!!)
@@ -260,7 +266,6 @@ class EditDetailsActivity : BaseActivity() {
                 myUploadedImageReference.downloadUrl.addOnSuccessListener { url->
 
                     val imageURL = url.toString()
-
                     val userImageReference = database.reference.child("Users").child(currentUserId!!).child("image")
 
                     userImageReference.setValue(imageURL).addOnSuccessListener {
@@ -273,16 +278,15 @@ class EditDetailsActivity : BaseActivity() {
                         Log.e("Database Error: ", it.toString())
                     }
                 }
-
             }.addOnFailureListener{
 
                 Toast.makeText(applicationContext,"Failed to Upload User Profile Image to Storage",Toast.LENGTH_SHORT).show()
                 Log.e("Storage Error: ", it.toString())
-
             }
         }
     }
 
+    // This function check if the user filled the text fields with data.
     private fun validateForm(firstName: String,surname:String, phoneNumber:String): Boolean {
 
         return when {
@@ -305,11 +309,15 @@ class EditDetailsActivity : BaseActivity() {
         }
     }
 
+    // This function check if the user entered a password of minimum 8 characters,
+    // 1 capital letter, a number and a special character,
+    // and if the password field match with the confirm password field.
     private fun verifyPassword(password: String, confirmPassword: String): Boolean {
         val passwordPattern = Regex("^(?=.*[A-Z])(?=.*\\d).{8,}$")
         return password == confirmPassword && passwordPattern.matches(password)
     }
 
+    // This function update the user information in the database under authenticated user node.
     private fun editInfo(){
 
         val userFirstNameReference = database.reference.child("Users").child(currentUserId!!).child("firstName")
@@ -322,6 +330,9 @@ class EditDetailsActivity : BaseActivity() {
 
     }
 
+    // This function check if the user is signed in recently (under 5 minutes),
+    // this is needed in case the user wants to change the password, firebase have a security rule
+    // that allow users to change the password only if is recently signed in.
     private fun isUserRecentlyLoggedIn(): Boolean {
         val user = auth.currentUser
         val lastSignInTimestamp = user?.metadata?.lastSignInTimestamp
@@ -334,5 +345,4 @@ class EditDetailsActivity : BaseActivity() {
         }
         return false
     }
-
 }

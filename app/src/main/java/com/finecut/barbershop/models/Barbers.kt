@@ -2,6 +2,7 @@ package com.finecut.barbershop.models
 import android.os.Parcel
 import android.os.Parcelable
 
+// This is the data class model for the Barbers object.
 data class Barbers(
     val id: String = "",
     val name: String = "",

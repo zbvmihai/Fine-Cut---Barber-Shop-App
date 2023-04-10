@@ -23,9 +23,7 @@ import java.util.*
 class MyBookingsActivity : BaseActivity() {
 
     private lateinit var myBookingsBinding: ActivityMyBookingsBinding
-
     private lateinit var bookingsAdapter: MyBookingsAdapter
-
     private var auth = FirebaseAuth.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,6 +38,8 @@ class MyBookingsActivity : BaseActivity() {
 
         val currentUserId = auth.currentUser?.uid
 
+        // This block of code retrieve the authenticated user details from the database
+        // and update the views in My Bookings Activity.
         FirebaseData.DBHelper.getCurrentUserFromDatabase(currentUserId!!, object: FirebaseData.DBHelper.CurrentUserCallback{
             @SuppressLint("SetTextI18n")
             override fun onSuccess(currentUser: Users) {
@@ -63,6 +63,9 @@ class MyBookingsActivity : BaseActivity() {
             }
         })
 
+
+        // This block of code retrieve the authenticated user bookings from the database and pass
+        // them to the bookings adapter to display them in My Bookings Activity recycler view.
         FirebaseData.DBHelper.getBookingsFromDatabase(currentUserId, object : FirebaseData.DBHelper.BookingsCallback{
             @SuppressLint("NotifyDataSetChanged")
             override fun onSuccess(bookingsList: ArrayList<Bookings>) {
@@ -79,21 +82,20 @@ class MyBookingsActivity : BaseActivity() {
                         else -> dateTime2.compareTo(dateTime1)
                     }
                 }
-
                 bookingsAdapter = MyBookingsAdapter(this@MyBookingsActivity,bookingsList)
                 myBookingsBinding.rvMyBookings.layoutManager = LinearLayoutManager(this@MyBookingsActivity)
                 myBookingsBinding.rvMyBookings.adapter = bookingsAdapter
                 bookingsAdapter.notifyDataSetChanged()
-
             }
 
             override fun onFailure(error: DatabaseError) {
                 Log.e("Database Error: ", error.toString())
             }
-
         })
     }
 
+    // This overridden function make the back button to finish current activity
+    // and go back to the previous one.
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             android.R.id.home -> {

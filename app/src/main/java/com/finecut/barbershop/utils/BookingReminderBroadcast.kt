@@ -10,6 +10,9 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.finecut.barbershop.R
 
+
+// This is the Booking Reminder Broadcast class that setup the the
+// notification channel, title, description and icon of the booking reminder notification
 class BookingReminderBroadcast : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         val channelId = "reminders_channel"
@@ -17,7 +20,7 @@ class BookingReminderBroadcast : BroadcastReceiver() {
         val message = intent.getStringExtra("message") ?: "Your appointment is in 1 hour!"
 
         val notificationBuilder = NotificationCompat.Builder(context, channelId)
-            .setSmallIcon(R.drawable.ic_launcher_background)
+            .setSmallIcon(R.drawable.finecut_logo)
             .setContentTitle(title)
             .setContentText(message)
             .setPriority(NotificationCompat.PRIORITY_HIGH)

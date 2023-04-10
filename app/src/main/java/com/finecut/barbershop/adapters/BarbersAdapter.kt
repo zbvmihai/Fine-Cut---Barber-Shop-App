@@ -14,6 +14,8 @@ import com.finecut.barbershop.models.Barbers
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 
+// This barbers adapter class take a list of barbers and populate the views of the barber card
+// in the recycler view of the Main activity.
 class BarbersAdapter(private var context: Context,
     private var barbersList: ArrayList<Barbers>
 ): RecyclerView.Adapter<BarbersAdapter.BarbersViewHolder>() {

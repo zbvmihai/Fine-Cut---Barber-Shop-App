@@ -1,8 +1,8 @@
 package com.finecut.barbershop.activities
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.finecut.barbershop.databinding.ActivityIntroBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -19,8 +19,8 @@ class IntroActivity : AppCompatActivity() {
         val view = splashBinding.root
         setContentView(view)
 
-        //This block of code launch a coroutine main thread to wait for 2 seconds and start the
-        //Log In Activity
+        // This block of code launch a coroutine main thread to wait for 2 seconds and start the
+        // Log In Activity
         CoroutineScope(Dispatchers.Main).launch {
             delay(2000) // Wait for 2 seconds
             startActivity(Intent(this@IntroActivity, LogInActivity::class.java))

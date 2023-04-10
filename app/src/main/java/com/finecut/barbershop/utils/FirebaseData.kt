@@ -3,8 +3,12 @@ package com.finecut.barbershop.utils
 import com.finecut.barbershop.models.*
 import com.google.firebase.database.*
 
+// This  class can be used in any activity withing this project.
+// it contains the all functions that deal with the firebase database,
+// and has the purpose to maintain a clean code architecture.
 class FirebaseData {
 
+    // Using this object, the functions can be called in the project using an interface
     object DBHelper {
 
         private val firebaseDatabase: FirebaseDatabase = FirebaseDatabase.getInstance()
@@ -18,6 +22,7 @@ class FirebaseData {
             fun onFailure(error: DatabaseError)
         }
 
+        // This function retrieve an user from the database under Users node based on user id
         fun getCurrentUserFromDatabase(userId: String, callback: CurrentUserCallback) {
             usersRef.child(userId).addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
@@ -51,6 +56,7 @@ class FirebaseData {
             fun onFailure(error: DatabaseError)
         }
 
+        // This function retrieve a barber from the database under Barbers node based on barber id
         fun getBarberFromDatabase(barberId: String, callback: BarberCallback) {
             barbersRef.child(barberId).addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
@@ -80,6 +86,7 @@ class FirebaseData {
             fun onFailure(error: DatabaseError)
         }
 
+        // This function retrieve all barbers from the database
         fun getBarbersFromDatabase(callback: BarbersCallback) {
             barbersRef.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
@@ -114,6 +121,7 @@ class FirebaseData {
             fun onFailure(error: DatabaseError)
         }
 
+        // This function retrieve all bookings from a user based on user id.
         fun getBookingsFromDatabase(userId: String,callback: BookingsCallback) {
             val userBookingsRef = FirebaseDatabase.getInstance().getReference("Users").child(userId).child("Bookings")
             userBookingsRef.addListenerForSingleValueEvent(object : ValueEventListener {
@@ -140,6 +148,7 @@ class FirebaseData {
             fun onFailure(error: DatabaseError)
         }
 
+        //This function retrieve all offers from the database.
         fun getOffersFromDatabase(callback: OffersCallback) {
 
             offersRef.addListenerForSingleValueEvent(object : ValueEventListener {

@@ -20,7 +20,6 @@ import com.finecut.barbershop.models.Barbers
 import com.finecut.barbershop.utils.BaseActivity
 import com.finecut.barbershop.utils.FirebaseData.DBHelper
 import com.google.firebase.database.DatabaseError
-import com.google.firebase.messaging.FirebaseMessaging
 
 class MainActivity : BaseActivity() {
 
@@ -47,6 +46,10 @@ class MainActivity : BaseActivity() {
         retrieveBarbersFromDatabase()
     }
 
+    // This function change the behaviour of the back button, if the button is pressed once,
+    // it will display a message to inform the user that he have to press the back button twice
+    // in case he want to close the app. If the back button is pressed twitch within 2 seconds,
+    // the app will close.
     private fun setupOnBackPressedCallback() {
         val onBackPressedCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -66,6 +69,8 @@ class MainActivity : BaseActivity() {
         onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
     }
 
+    // This function retrieve all the barbers from the database and
+    // set the barbers adapter of the recycler view to display the all the barbers in the app.
     private fun retrieveBarbersFromDatabase(){
 
         DBHelper.getBarbersFromDatabase(object:
@@ -84,6 +89,8 @@ class MainActivity : BaseActivity() {
         })
     }
 
+    // This function setup the notifications channels,
+    // so the user will be able to control what kind of notifications to receive.
     private fun setUpNotificationChannels() {
         val channelIdBookingStatus = "booking_status_channel"
         val channelNameBookingStatus = "Booking Status Channel"
@@ -104,13 +111,9 @@ class MainActivity : BaseActivity() {
             notificationManager.createNotificationChannel(channelReminders)
             notificationManager.createNotificationChannel(channelOffers)
         }
-
-        // Subscribe to a topic (optional)
-        FirebaseMessaging.getInstance().subscribeToTopic("general")
     }
 
-
-
+    // This function will request notifications permission if the app is running on Android 13+
     private fun requestNotificationPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
@@ -123,6 +126,7 @@ class MainActivity : BaseActivity() {
         }
     }
 
+    // This function will setup the notification channels if the permission is granted.
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == 1) {

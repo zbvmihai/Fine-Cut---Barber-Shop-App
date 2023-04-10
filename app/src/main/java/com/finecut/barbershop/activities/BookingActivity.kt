@@ -45,7 +45,6 @@ class BookingActivity : BaseActivity() {
     private var pointsUsed: Boolean = false
 
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
-
     private lateinit var bookingBinding: ActivityBookingBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,16 +58,22 @@ class BookingActivity : BaseActivity() {
         getAndSetData()
         getUserPoints()
 
+        // When See reviews button is clicked, Reviews Activity is opened
+        // and the barber object is passed to it.
         bookingBinding.btnSeeReviews.setOnClickListener {
             val intent = Intent(this@BookingActivity,ReviewsActivity::class.java)
             intent.putExtra("barber",barber)
             startActivity(intent)
         }
-
+        // When the select date edit text is clicked the pickDate function is executed
+        // and the calendar will be opened on the user screen to select a date
         bookingBinding.etBookingPickDate.setOnClickListener {
             pickDate()
         }
 
+        // When Apply Discount button is clicked, the discount code field is checked to not be empty,
+        // if the field is not empty, the validity of the code is checked and if it is ok,
+        // the discount is applied to the total.
         bookingBinding.btnApplyDiscount.setOnClickListener {
             val discountCode = bookingBinding.etDiscountCode.text.toString().trim().capitalize(
                 Locale.ROOT)
@@ -79,6 +84,9 @@ class BookingActivity : BaseActivity() {
             }
         }
 
+        // When the Use Points button is clicked, the amount of points of the user is checked,
+        // if the user have more than 10 points, for every 10 points,
+        // 1 pound will be extracted from the total.
         bookingBinding.btnUsePoints.setOnClickListener {
             if (!pointsUsed) {
                 if (userPoints >= 10) {
@@ -99,11 +107,15 @@ class BookingActivity : BaseActivity() {
             }
         }
 
+        // When Book button is click, the save booking function is executed.
         bookingBinding.btnBook.setOnClickListener {
             saveBooking(usedPoints)
         }
     }
 
+    // This function take the barber object passed from Barbers Adapter,
+    // fill the view of the Booking Activity with the barber information,
+    // updating the services and time slots available for the selected barber
     private fun getAndSetData() {
 
         barber = intent.getParcelableExtra("barber")!!
@@ -168,6 +180,8 @@ class BookingActivity : BaseActivity() {
         }
     }
 
+    // This function check the available slots and remove the booked ones from the list,
+    // so in the app will be displayed only available ones.
     private fun getAvailableTimeSlots(bookings: List<Bookings>, selectedDate: String): List<String> {
 
         val allTimeSlots = listOf(
@@ -180,13 +194,17 @@ class BookingActivity : BaseActivity() {
         return allTimeSlots.filterNot { bookedTimeSlots.contains(it) }
     }
 
+    // This function update the available timeslots in the timeslots spinner.
     private fun updateTimeSlotsSpinner(availableTimeSlots: List<String>) {
+
         timeSlotsList = availableTimeSlots
         val timeSlotsAdapter = ArrayAdapter(this, R.layout.spinner_item, availableTimeSlots)
         timeSlotsAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
         bookingBinding.spinnerTimeSlot.adapter = timeSlotsAdapter
     }
 
+    // This function open and set up the date picker. When a date is picked,
+    // the edit text with the date and the time slot spinner will be updated,
     private fun pickDate() {
 
         val builder = MaterialDatePicker.Builder.datePicker()
@@ -212,6 +230,8 @@ class BookingActivity : BaseActivity() {
         picker.show(supportFragmentManager, picker.toString())
     }
 
+    // This function will load the available offers
+    // to be able to check the codes when the user enter them.
     private fun loadOffers(){
         FirebaseData.DBHelper.getOffersFromDatabase(object: FirebaseData.DBHelper.OffersCallback{
             override fun onSuccess(offers: ArrayList<Offers>) {
@@ -226,6 +246,8 @@ class BookingActivity : BaseActivity() {
         })
     }
 
+
+    // This function check the offer code availability and calculate the total with the entered code.
     @SuppressLint("SetTextI18n")
     private fun applyDiscount(discountCode: String) {
         val selectedOffer = offersList.firstOrNull { it.code == discountCode }
@@ -242,6 +264,9 @@ class BookingActivity : BaseActivity() {
         }
     }
 
+
+    // This function collect all the data entered by the user from the booking page,
+    // arrange it in a booking object and save the booking under barber and user node.
     private fun saveBooking(usedPoints: Long = 0) {
 
         val userId = auth.currentUser?.uid ?: ""
@@ -286,6 +311,9 @@ class BookingActivity : BaseActivity() {
             }
     }
 
+
+    // This function calculate how many points user have, used and how many will get for the booking,
+    // and update the points field under the current user node in the database.
     private fun addPointsToUser(userId: String, totalPrice: Double,usedPoints: Long = 0) {
         val pointsToAdd = (totalPrice * 0.10).roundToInt()
 
@@ -311,6 +339,7 @@ class BookingActivity : BaseActivity() {
         })
     }
 
+    // This function retrieve the points of the current user from the database
     private fun getUserPoints() {
         val userId = auth.currentUser?.uid ?: ""
         FirebaseData.DBHelper.getCurrentUserFromDatabase(userId, object : FirebaseData.DBHelper.CurrentUserCallback {
@@ -324,11 +353,15 @@ class BookingActivity : BaseActivity() {
         })
     }
 
+
+    // This function calculate how much to subtract from the total based on user points.
     private fun calculatePointsDiscount(points: Long): Double {
         val pointsToUse = (points / 10) * 10
         return pointsToUse.toDouble() / 10
     }
 
+    // This overridden function make the back button to finish current activity
+    // and go back to the previous one.
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             android.R.id.home -> {
@@ -339,6 +372,7 @@ class BookingActivity : BaseActivity() {
         }
     }
 
+    // This function will schedule a notification to remind the user he has 1 hour left to the appointment.
     @SuppressLint("InlinedApi")
     private fun scheduleBookingReminder(date: String, timeslot: String, userId: String) {
         val dateFormat = SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.getDefault())
@@ -362,7 +396,6 @@ class BookingActivity : BaseActivity() {
                 PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
             )
 
-
             val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
             alarmManager.setExact(AlarmManager.RTC_WAKEUP, reminderDateTime.timeInMillis, pendingIntent)
         } else {
@@ -370,6 +403,9 @@ class BookingActivity : BaseActivity() {
         }
     }
 
+
+    // This function will schedule a notification to remind the user
+    // that he did not booked a new appointment in last 2 weeks.
     @SuppressLint("InlinedApi")
     private fun scheduleFollowUpReminder(date: String, timeslot: String, userId: String) {
         val dateFormat = SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.getDefault())
@@ -399,5 +435,4 @@ class BookingActivity : BaseActivity() {
             Log.e("Error", "Failed to parse date and time for the follow-up reminder.")
         }
     }
-
 }

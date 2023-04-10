@@ -27,8 +27,8 @@ class SignUpActivity : AppCompatActivity() {
         val view = signUpBinding.root
         setContentView(view)
 
-
-
+        // When signup button is clicked, all the fields are checked to not be empty and
+        // to fulfil the requirements, after that the user will be register in the database.
         signUpBinding.btnSignUp.setOnClickListener {
 
             val userFirstName = signUpBinding.etFirstNameSignUp.text.toString()
@@ -47,6 +47,8 @@ class SignUpActivity : AppCompatActivity() {
         }
     }
 
+    // This function check if the password meet the requirements and if match the confirm password,
+    // after that the user is registered in the firebase authentication.
     private fun signUpWithFirebase(userFirstName: String, userSurname: String,userEmail: String,
                                    userPhoneNumber: String,userPassword: String,
                                    userConfirmPassword: String){
@@ -74,11 +76,15 @@ class SignUpActivity : AppCompatActivity() {
         }
     }
 
+    // This function check if the user entered a password of minimum 8 characters,
+    // 1 capital letter, a number and a special character,
+    // and if the password field match with the confirm password field.
     private fun verifyPassword(password: String, confirmPassword: String): Boolean {
         val passwordPattern = Regex("^(?=.*[A-Z])(?=.*\\d).{8,}$")
         return password == confirmPassword && passwordPattern.matches(password)
     }
 
+    // This function check if the user filled the text fields with data.
     private fun validateForm(firstName: String,surname:String, email: String,phoneNumber:String,
                              password: String,confirmPassword: String): Boolean {
 
@@ -113,6 +119,8 @@ class SignUpActivity : AppCompatActivity() {
         }
     }
 
+    // This function add the registered user in the firebase database under Users node.
+    // Each user have top key value its id.
     private fun addUserToDatabase(firstName: String,surname:String, email: String,phoneNumber:String){
 
         val user = Users(userId,firstName,surname,email,phoneNumber)

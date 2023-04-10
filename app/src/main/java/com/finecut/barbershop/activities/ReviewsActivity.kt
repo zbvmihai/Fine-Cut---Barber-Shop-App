@@ -31,6 +31,10 @@ class ReviewsActivity : BaseActivity() {
 
         setupActionAndSideMenuBar(this,reviewsBinding.tbReviews,true,view)
 
+        // Next lines of code takes the barber object passed from the selected barber
+        // in the recycler view, will fill the views in the Reviews activity,
+        // the reviews of the selected barber will be passed to the reviews adapter,
+        // and the reviews recycler view will display all the reviews of the barber.
         barber = intent.getParcelableExtra("barber")!!
 
         reviewsBinding.reviewsTbTitle.text = barber.name
@@ -59,6 +63,8 @@ class ReviewsActivity : BaseActivity() {
         reviewsBinding.rvReviews.adapter = reviewsAdapter
     }
 
+    // This overridden function make the back button to finish current activity
+    // and go back to the previous one.
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             android.R.id.home -> {

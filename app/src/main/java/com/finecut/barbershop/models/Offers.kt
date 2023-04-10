@@ -3,6 +3,7 @@ package com.finecut.barbershop.models
 import android.os.Parcel
 import android.os.Parcelable
 
+// This is the data class model for the Offers object.
 data class Offers(
     val date: String = "",
     val description: String = "",

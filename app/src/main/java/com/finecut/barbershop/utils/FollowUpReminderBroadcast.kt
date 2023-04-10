@@ -8,6 +8,8 @@ import android.content.Intent
 import androidx.core.app.NotificationCompat
 import com.finecut.barbershop.R
 
+// This is the Follow Up Reminder Broadcast class that setup the the
+// notification channel, title, description and icon of the follow up reminder notification
 class FollowUpReminderBroadcast : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
@@ -18,7 +20,7 @@ class FollowUpReminderBroadcast : BroadcastReceiver() {
         val message = intent.getStringExtra("message") ?: "It's been 2 weeks since your last appointment. Would you like to schedule a new one?"
 
         val notificationBuilder = NotificationCompat.Builder(context, channelId)
-            .setSmallIcon(R.drawable.ic_launcher_background)
+            .setSmallIcon(R.drawable.finecut_logo)
             .setContentTitle(title)
             .setContentText(message)
             .setPriority(NotificationCompat.PRIORITY_HIGH)

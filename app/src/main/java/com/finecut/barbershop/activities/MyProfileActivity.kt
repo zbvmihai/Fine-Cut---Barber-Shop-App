@@ -32,6 +32,8 @@ class MyProfileActivity : BaseActivity() {
 
         setupActionAndSideMenuBar(this,myProfileBinding.tbBooking,true,view)
 
+        // This block of code retrieve the authenticated user details from the database
+        // and update the views in My Profile Activity.
         FirebaseData.DBHelper.getCurrentUserFromDatabase(currentUserId!!, object: FirebaseData.DBHelper.CurrentUserCallback{
             @SuppressLint("SetTextI18n")
             override fun onSuccess(currentUser: Users) {
@@ -60,16 +62,18 @@ class MyProfileActivity : BaseActivity() {
             }
         })
 
+        // When My Bookings button is clicked the user will be redirected to the My Bookings Activity
         myProfileBinding.btnMyBookings.setOnClickListener {
-
             startActivity(Intent(this,MyBookingsActivity::class.java))
         }
 
+        // When Edit Details button is clicked, Edit Details Activity is opened.
         myProfileBinding.btnMyBookingsEditDetails.setOnClickListener {
-
             startActivity(Intent(this,EditDetailsActivity::class.java))
         }
 
+        // When Sign Out button is clicked, the user will be signed out
+        // and the sign in activity will open
         myProfileBinding.btnMyBookingsLogOut.setOnClickListener {
 
             auth.signOut()
@@ -78,6 +82,8 @@ class MyProfileActivity : BaseActivity() {
         }
     }
 
+    // This overridden function make the back button to finish current activity
+    // and go back to the previous one.
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             android.R.id.home -> {
