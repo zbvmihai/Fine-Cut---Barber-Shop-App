@@ -24,6 +24,7 @@ class BarbersAdapter(private var context: Context,
     inner class BarbersViewHolder(val adapterBinding: BarbersCardBinding)
         : RecyclerView.ViewHolder(adapterBinding.root)
 
+    //This function inflate the views of the recycler view
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BarbersViewHolder {
 
         val binding = BarbersCardBinding.inflate(LayoutInflater.from(parent.context),parent,false)
@@ -31,6 +32,7 @@ class BarbersAdapter(private var context: Context,
 
     }
 
+    //This function bind the views of the recycler view with the given data set
     override fun onBindViewHolder(holder: BarbersViewHolder, position: Int) {
 
         holder.adapterBinding.tvBarberName.text = barbersList[holder.adapterPosition].name
@@ -59,6 +61,7 @@ class BarbersAdapter(private var context: Context,
         })
     }
 
+    //This function count and return the size of the list
     override fun getItemCount(): Int {
         return barbersList.size
     }

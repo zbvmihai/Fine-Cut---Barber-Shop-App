@@ -8,7 +8,7 @@ import com.google.firebase.database.*
 // and has the purpose to maintain a clean code architecture.
 class FirebaseData {
 
-    // Using this object, the functions can be called in the project using an interface
+    // Using this object, the functions can be called within the project
     object DBHelper {
 
         private val firebaseDatabase: FirebaseDatabase = FirebaseDatabase.getInstance()
@@ -30,13 +30,26 @@ class FirebaseData {
                     val firstName = snapshot.child("firstName").getValue(String::class.java) ?: ""
                     val surname = snapshot.child("surname").getValue(String::class.java) ?: ""
                     val email = snapshot.child("email").getValue(String::class.java) ?: ""
-                    val phoneNumber = snapshot.child("phoneNumber").getValue(String::class.java) ?: ""
+                    val phoneNumber =
+                        snapshot.child("phoneNumber").getValue(String::class.java) ?: ""
                     val isClient = snapshot.child("client").getValue(Int::class.java) ?: 1
                     val image = snapshot.child("image").getValue(String::class.java) ?: ""
-                    val bookings = snapshot.child("bookings").children.mapNotNull { it.getValue(Bookings::class.java) }
+                    val bookings =
+                        snapshot.child("bookings").children.mapNotNull {
+                            it.getValue(Bookings::class.java) }
                     val points = snapshot.child("points").getValue(Long::class.java) ?: 0
 
-                    val user = Users(id, firstName, surname, email, phoneNumber, isClient, image, bookings, points)
+                    val user = Users(
+                        id,
+                        firstName,
+                        surname,
+                        email,
+                        phoneNumber,
+                        isClient,
+                        image,
+                        bookings,
+                        points
+                    )
 
                     if (id.isNotEmpty()) {
                         callback.onSuccess(user)
@@ -64,13 +77,21 @@ class FirebaseData {
                     val name = snapshot.child("name").getValue(String::class.java) ?: ""
                     val image = snapshot.child("image").getValue(String::class.java) ?: ""
                     val rating = snapshot.child("rating").getValue(Float::class.java) ?: 0F
-                    val description = snapshot.child("description").getValue(String::class.java) ?: ""
+                    val description =
+                        snapshot.child("description").getValue(String::class.java) ?: ""
 
-                    val services = snapshot.child("services").children.mapNotNull { it.getValue(Services::class.java) }
-                    val bookings = snapshot.child("bookings").children.mapNotNull { it.getValue(Bookings::class.java) }
-                    val reviews = snapshot.child("reviews").children.mapNotNull { it.getValue(Reviews::class.java)}
+                    val services =
+                        snapshot.child("services").children.mapNotNull {
+                            it.getValue(Services::class.java) }
+                    val bookings =
+                        snapshot.child("bookings").children.mapNotNull {
+                            it.getValue(Bookings::class.java) }
+                    val reviews =
+                        snapshot.child("reviews").children.mapNotNull {
+                            it.getValue(Reviews::class.java) }
 
-                    val barber = Barbers(id, name, image, rating, description, services, bookings, reviews)
+                    val barber =
+                        Barbers(id, name, image, rating, description, services, bookings, reviews)
 
                     callback.onSuccess(barber)
                 }
@@ -80,7 +101,7 @@ class FirebaseData {
                 }
             })
         }
-        
+
         interface BarbersCallback {
             fun onSuccess(barbersList: ArrayList<Barbers>)
             fun onFailure(error: DatabaseError)
@@ -96,14 +117,31 @@ class FirebaseData {
                         val id = barberSnapshot.child("id").getValue(String::class.java) ?: ""
                         val name = barberSnapshot.child("name").getValue(String::class.java) ?: ""
                         val image = barberSnapshot.child("image").getValue(String::class.java) ?: ""
-                        val rating = barberSnapshot.child("rating").getValue(Float::class.java) ?: 0F
-                        val description = barberSnapshot.child("description").getValue(String::class.java) ?: ""
+                        val rating =
+                            barberSnapshot.child("rating").getValue(Float::class.java) ?: 0F
+                        val description =
+                            barberSnapshot.child("description").getValue(String::class.java) ?: ""
 
-                        val services = barberSnapshot.child("services").children.mapNotNull { it.getValue(Services::class.java) }
-                        val bookings = barberSnapshot.child("Bookings").children.mapNotNull { it.getValue(Bookings::class.java) }
-                        val reviews = barberSnapshot.child("reviews").children.mapNotNull { it.getValue(Reviews::class.java)}
+                        val services = barberSnapshot.child("services").children.mapNotNull {
+                            it.getValue(Services::class.java)
+                        }
+                        val bookings = barberSnapshot.child("Bookings").children.mapNotNull {
+                            it.getValue(Bookings::class.java)
+                        }
+                        val reviews = barberSnapshot.child("reviews").children.mapNotNull {
+                            it.getValue(Reviews::class.java)
+                        }
 
-                        val barber = Barbers(id, name, image, rating, description, services, bookings, reviews)
+                        val barber = Barbers(
+                            id,
+                            name,
+                            image,
+                            rating,
+                            description,
+                            services,
+                            bookings,
+                            reviews
+                        )
                         barbersList.add(barber)
                     }
 
@@ -122,8 +160,10 @@ class FirebaseData {
         }
 
         // This function retrieve all bookings from a user based on user id.
-        fun getBookingsFromDatabase(userId: String,callback: BookingsCallback) {
-            val userBookingsRef = FirebaseDatabase.getInstance().getReference("Users").child(userId).child("Bookings")
+        fun getBookingsFromDatabase(userId: String, callback: BookingsCallback) {
+            val userBookingsRef =
+                FirebaseDatabase.getInstance().getReference("Users")
+                    .child(userId).child("Bookings")
             userBookingsRef.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
 

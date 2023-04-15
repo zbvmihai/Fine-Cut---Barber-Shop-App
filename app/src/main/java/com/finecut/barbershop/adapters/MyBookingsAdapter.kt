@@ -33,11 +33,13 @@ class MyBookingsAdapter(private var context: Context,
     inner class BookingsViewHolder(val adapterBookings: BookingsCardBinding)
         : RecyclerView.ViewHolder(adapterBookings.root)
 
+    //This function inflate the views of the recycler view
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookingsViewHolder {
         val binding = BookingsCardBinding.inflate(LayoutInflater.from(parent.context),parent,false)
         return BookingsViewHolder(binding)
     }
 
+    //This function bind the views of the recycler view with the given data set
     override fun onBindViewHolder(holder: BookingsViewHolder, position: Int) {
 
         val bookingDate = "${bookingsList[holder.adapterPosition].date}-${bookingsList[holder.adapterPosition].timeslot.replace(":", "-")}"
@@ -136,7 +138,7 @@ class MyBookingsAdapter(private var context: Context,
             }
         })
     }
-
+    //This function count and return the size of the list
     override fun getItemCount(): Int {
         return bookingsList.size
     }

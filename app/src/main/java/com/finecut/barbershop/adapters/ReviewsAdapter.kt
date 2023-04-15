@@ -24,12 +24,14 @@ private var reviewsList: ArrayList<Reviews>)
 
     inner class ReviewsViewHolder(val adapterBinding: ReviewsCardBinding)
         : RecyclerView.ViewHolder(adapterBinding.root)
-
+    //This function inflate the views of the recycler view
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReviewsViewHolder {
         val binding = ReviewsCardBinding.inflate(LayoutInflater.from(parent.context),parent,false)
         return ReviewsViewHolder(binding)
     }
 
+
+    //This function bind the views of the recycler view with the given data set
     override fun onBindViewHolder(holder: ReviewsViewHolder, position: Int) {
 
         FirebaseData.DBHelper.getCurrentUserFromDatabase(reviewsList[holder.adapterPosition].userId, object : FirebaseData.DBHelper.CurrentUserCallback {
@@ -61,6 +63,7 @@ private var reviewsList: ArrayList<Reviews>)
         })
     }
 
+    //This function count and return the size of the list
     override fun getItemCount(): Int {
         return reviewsList.size
     }

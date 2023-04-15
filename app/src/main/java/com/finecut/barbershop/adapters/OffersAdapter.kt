@@ -21,11 +21,13 @@ class OffersAdapter(private var context: Context,
     inner class ReviewsViewHolder(val adapterBinding: OffersCardBinding)
         : RecyclerView.ViewHolder(adapterBinding.root)
 
+    //This function inflate the views of the recycler view
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReviewsViewHolder {
         val binding = OffersCardBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ReviewsViewHolder(binding)
     }
 
+    //This function bind the views of the recycler view with the given data set
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ReviewsViewHolder, position: Int) {
 
@@ -40,10 +42,12 @@ class OffersAdapter(private var context: Context,
         }
     }
 
+    //This function count and return the size of the list
     override fun getItemCount(): Int {
         return offersList.size
     }
 
+    //This function copy the text from the offer to the clipboard of the device
     private fun copyToClipboard(context: Context, text: String) {
         val clipboardManager = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         val clipData = ClipData.newPlainText("Offer Code", text)
